@@ -20,6 +20,12 @@ func VecFn(x, y float64) Vec {
 	return Vec{X: x, Y: y}
 }
 
+// XY returns the Vec's components. Useful for passing a Vec to a function that takes
+// x and y individually.
+func (v Vec) XY() (x, y float64) {
+	return v.X, v.Y
+}
+
 // Equals returns true if the corresponding components of the vectors are within the error e.
 func (v Vec) Equals(v2 Vec, e float64) bool {
 	return math.Abs(v.X-v2.X) < e && math.Abs(v.Y-v2.Y) < e
