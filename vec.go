@@ -14,6 +14,12 @@ type Vec struct {
 	X, Y float64
 }
 
+// VecFn constructs a Vec from its arguments. Useful for making a Vec from a function that
+// returns two floats (like some Rect functions).
+func VecFn(x, y float64) Vec {
+	return Vec{X: x, Y: y}
+}
+
 // Equals returns true if the corresponding components of the vectors are within the error e.
 func (v Vec) Equals(v2 Vec, e float64) bool {
 	return math.Abs(v.X-v2.X) < e && math.Abs(v.Y-v2.Y) < e
