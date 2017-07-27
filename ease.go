@@ -14,21 +14,20 @@ func LerpVec(a, b Vec, t float64) Vec {
 	return Vec{X: Lerp(a.X, b.X, t), Y: Lerp(a.Y, b.Y, t)}
 }
 
+// Ease leterpolates from a to b by percent t following the path defined by easefn.
+func Ease(a, b, t float64, easefn EaseFn) float64 {
+	return Lerp(a, b, easefn(t))
+}
+
+// EaseVec leterpolates from a to b by percent t following the path defined by easefn.
+func EaseVec(a, b Vec, t float64, easefn EaseFn) Vec {
+	return Vec{X: Ease(a.X, b.X, t, easefn), Y: Ease(a.Y, b.Y, t, easefn)}
+}
+
 // EaseFn is a function that takes a time t and returns a value.
 // Ease functions taken from https://gist.github.com/gre/1650294 and
 // https://github.com/warrenm/AHEasing/blob/master/AHEasing/easing.c
 type EaseFn func(t float64) float64
-
-// EaseMod wraps an EaseFn with parameters that modify it's behavior.
-// Parameters:
-//  start and end stretches the range of output from [0, 1] to [start, end]
-//
-// func EaseMod(fn EaseFn, start, end float64) EaseFn {
-// 	scale := end - start
-// 	return func(t float64) float64 {
-// 		return fn(t)*scale + start
-// 	}
-// }
 
 // EaseIn creates an EaseFn with the given power that eases into the destination.
 func EaseIn(power float64) EaseFn {
