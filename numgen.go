@@ -15,25 +15,33 @@ func ConstNum(n float64) NumGen {
 	}
 }
 
-// RandNum returns a NumGen that returns a uniform random number between min and max.
-func RandNum(min, max float64) NumGen {
-	width := max - min
+// RandNum returns a NumGen that returns a uniform random number in [min(a, b), max(a, b)).
+func RandNum(a, b float64) NumGen {
+	if a > b {
+		a, b = b, a
+	}
+	width := b - a
 	return func() float64 {
-		return rand.Float64()*width + min
+		return rand.Float64()*width + a
 	}
 }
 
-// RandRadius returns a NumGen that returns a uniform circle radius between minR and maxR.
-func RandRadius(minR, maxR float64) NumGen {
-	if maxR == 0 || maxR == minR {
+// RandRadius returns a NumGen that returns a random, uniform circle radius in
+// [min(radius1, radius2), max(radius1, radius2)). This function is undefined for negative
+// radii.
+func RandRadius(radius1, radius2 float64) NumGen {
+	if radius1 > radius2 {
+		radius1, radius2 = radius2, radius1
+	}
+	if radius1 == radius2 {
 		return func() float64 {
-			return maxR
+			return radius1
 		}
 	}
-	unitMin := minR / maxR
+	unitMin := radius1 / radius2
 	unitMin *= unitMin
 	return func() float64 {
-		return math.Sqrt(rand.Float64()*(1-unitMin)+unitMin) * maxR
+		return math.Sqrt(rand.Float64()*(1-unitMin)+unitMin) * radius2
 	}
 }
 
@@ -58,31 +66,37 @@ func DynamicVec(v *Vec) VecGen {
 // RandCircle as an initial position you might use the following to center the circle
 // at position 100, 100.
 //  OffsetVec(RandVecCircle(5, 10), StaticVec(Vec{X: 100, Y: 100}))
-//
 func OffsetVec(gen VecGen, offset VecGen) VecGen {
 	return func() Vec {
 		return gen().Plus(offset())
 	}
 }
 
-// RandVecCircle returns a VecGen that will generate a random vector within the given radii.
-// A negative radius results in undefined behavior.
-func RandVecCircle(minRadius, maxRadius float64) VecGen {
+// RandVecCircle returns a VecGen that will generate a random vector whose length is
+// in [min(radius1, radius2), max(radius1, radius2)).
+func RandVecCircle(radius1, radius2 float64) VecGen {
+	if radius1 > radius2 {
+		radius1, radius2 = radius2, radius1
+	}
 	return func() Vec {
-		return RandVec().Times(circleRadius(minRadius, maxRadius))
+		return RandVec().Times(circleRadius(radius1, radius2))
 	}
 }
 
 // RandVecArc returns a VecGen that will generate a random vector within the slice of a
-// circle defined by the parameters. The radians are relative to the +x axis.
-// A negative radius results in undefined behavior.
-func RandVecArc(minRadius, maxRadius, minRadians, maxRadians float64) VecGen {
-	if maxRadians < minRadians {
-		minRadians, maxRadians = maxRadians, minRadians
+// circle defined by the parameters. The radians are relative to the +x axis. The length
+// of the vector will be within [min(radius1, radius2), max(radius1, radius2)) and the
+// angle will be within [min(radians1, radians2), max(radians1, radians2)).
+func RandVecArc(radius1, radius2, radians1, radians2 float64) VecGen {
+	if radius1 > radius2 {
+		radius1, radius2 = radius2, radius1
+	}
+	if radians1 > radians2 {
+		radians1, radians2 = radians2, radians1
 	}
 	return func() Vec {
-		r := circleRadius(minRadius, maxRadius)
-		rad := rand.Float64()*(maxRadians-minRadians) + minRadians
+		r := circleRadius(radius1, radius2)
+		rad := rand.Float64()*(radians2-radians1) + radians1
 		return Vec{X: r}.Rotated(rad)
 	}
 }
@@ -119,7 +133,7 @@ func RandVecArc(minRadius, maxRadius, minRadians, maxRadians float64) VecGen {
 
 // Returns a uniformaly distributed radius between minR and maxR.
 func circleRadius(minR, maxR float64) float64 {
-	if maxR == 0 || maxR == minR {
+	if maxR == minR {
 		return maxR
 	}
 	unitMin := minR / maxR
