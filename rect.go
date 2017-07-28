@@ -1,10 +1,17 @@
 package geo
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // Rect defines rectangular coordinates, by the top left corner (X, Y), width W and height H.
 type Rect struct {
 	X, Y, W, H float64
+}
+
+func (r Rect) String() string {
+	return fmt.Sprintf("Rect(%f, %f, w%f, h%f)", r.X, r.Y, r.W, r.H)
 }
 
 // RectCorners creates a rect given top lect and bottom right coners.

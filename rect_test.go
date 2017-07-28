@@ -6,12 +6,12 @@ func TestMakeRect(t *testing.T) {
 	want := Rect{X: 1, Y: 2, W: 2, H: 3}
 	got := RectCorners(1, 2, 3, 5)
 	if got != want {
-		t.Errorf("got: %#v, want: %#v", got, want)
+		t.Errorf("got %s, want %s", got, want)
 	}
 
 	got = RectCornersVec(Vec{X: 1, Y: 2}, Vec{X: 3, Y: 5})
 	if got != want {
-		t.Errorf("got: %#v, want: %#v", got, want)
+		t.Errorf("got %s, want %s", got, want)
 	}
 }
 
@@ -21,14 +21,14 @@ func TestRectGetSetFuncs(t *testing.T) {
 	check := func(name string, fn func() float64, want float64) {
 		got := fn()
 		if got != want {
-			t.Errorf("%s: got: %f, want: %f", name, got, want)
+			t.Errorf("%s: got %f, want %f", name, got, want)
 		}
 	}
 
 	check2 := func(name string, fn func() (float64, float64), want1, want2 float64) {
 		got1, got2 := fn()
 		if got1 != want1 || got2 != want2 {
-			t.Errorf("%s: got: %f, %f, want: %f, %f", name, got1, got2, want1, want2)
+			t.Errorf("%s: got %f, %f, want %f, %f", name, got1, got2, want1, want2)
 		}
 	}
 
@@ -106,12 +106,12 @@ func TestRectInflate(t *testing.T) {
 	for i, c := range cases {
 		got := c.r.Inflated(c.dw, c.dh)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 
 		c.r.Inflate(c.dw, c.dh)
 		if c.r != c.want {
-			t.Errorf("IP case %d: got %#v, want %#v", i, c.r, c.want)
+			t.Errorf("IP case %d: got %s, want %s", i, c.r, c.want)
 		}
 	}
 }
@@ -129,12 +129,12 @@ func TestRectClamp(t *testing.T) {
 	for i, c := range cases {
 		got := c.r.Clamped(c.bounds)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 
 		c.r.Clamp(c.bounds)
 		if c.r != c.want {
-			t.Errorf("IP case %d: got %#v, want %#v", i, c.r, c.want)
+			t.Errorf("IP case %d: got %s, want %s", i, c.r, c.want)
 		}
 	}
 }
@@ -152,12 +152,12 @@ func TestRectIntersect(t *testing.T) {
 	for i, c := range cases {
 		got := c.r1.Intersect(c.r2)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 
 		got = c.r2.Intersect(c.r1)
 		if got != c.want {
-			t.Errorf("reverse case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("reverse case %d: got %s, want %s", i, got, c.want)
 		}
 	}
 }
@@ -175,17 +175,17 @@ func TestRectUnion(t *testing.T) {
 	for i, c := range cases {
 		got := c.r1.Unioned(c.r2)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 
 		got = c.r2.Unioned(c.r1)
 		if got != c.want {
-			t.Errorf("reverse case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("reverse case %d: got %s, want %s", i, got, c.want)
 		}
 
 		c.r1.Union(c.r2)
 		if c.r1 != c.want {
-			t.Errorf("IP case %d: got %#v, want %#v", i, c.r1, c.want)
+			t.Errorf("IP case %d: got %s, want %s", i, c.r1, c.want)
 		}
 	}
 }
@@ -212,7 +212,7 @@ func TestRectUnionAll(t *testing.T) {
 	for i, c := range cases {
 		got := RectUnion(c.rs)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 	}
 }
@@ -246,12 +246,12 @@ func TestRectFit(t *testing.T) {
 	for i, c := range cases {
 		got := c.r1.Fitted(c.r2)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 
 		c.r1.Fit(c.r2)
 		if c.r1 != c.want {
-			t.Errorf("IP case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("IP case %d: got %s, want %s", i, got, c.want)
 		}
 	}
 }
@@ -266,11 +266,11 @@ func TestRectNormalize(t *testing.T) {
 	for i, c := range cases {
 		got := c.r.Normalized()
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %s, want %s", i, got, c.want)
 		}
 		c.r.Normalize()
 		if c.r != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, c.r, c.want)
+			t.Errorf("case %d: got %s, want %s", i, c.r, c.want)
 		}
 	}
 }
@@ -287,7 +287,7 @@ func TestRectContains(t *testing.T) {
 	for i, c := range cases {
 		got := c.r1.Contains(c.r2)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
 		}
 	}
 }
@@ -308,7 +308,7 @@ func TestRectCollidePoint(t *testing.T) {
 	for i, c := range cases {
 		got := c.r.CollidePoint(c.x, c.y)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
 		}
 	}
 }
@@ -329,7 +329,7 @@ func TestRectCollideRect(t *testing.T) {
 	for i, c := range cases {
 		got := c.r1.CollideRect(c.r2)
 		if got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
 		}
 	}
 }
@@ -367,7 +367,7 @@ func TestRectCollideList(t *testing.T) {
 	for i, c := range cases {
 		got, ok := c.r.CollideRectList(c.rs)
 		if c.ok == ok && got != c.want {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %d, want %d", i, got, c.want)
 		}
 	}
 }
@@ -416,7 +416,7 @@ func TestRectCollideListAll(t *testing.T) {
 	for i, c := range cases {
 		got := c.r.CollideRectListAll(c.rs)
 		if !listEqual(got, c.want) {
-			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
 		}
 	}
 }

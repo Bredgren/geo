@@ -15,8 +15,4 @@
 //
 // Rect
 //  Defines a rectangular area. Like Vec it also has many functions for values and references.
-//
-// TODO:
-//  - collison
-//  - String functions
 package geo
