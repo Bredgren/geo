@@ -2,6 +2,7 @@ package geo
 
 import (
 	"fmt"
+	"image"
 	"math"
 )
 
@@ -11,7 +12,7 @@ type Rect struct {
 }
 
 func (r Rect) String() string {
-	return fmt.Sprintf("Rect(%f, %f, w%f, h%f)", r.X, r.Y, r.W, r.H)
+	return fmt.Sprintf("Rect(%g, %g, w%g, h%g)", r.X, r.Y, r.W, r.H)
 }
 
 // RectCorners creates a rect given top lect and bottom right coners.
@@ -22,6 +23,20 @@ func RectCorners(x1, y1, x2, y2 float64) Rect {
 // RectCornersVec creates a rect given top lect and bottom right coners.
 func RectCornersVec(topLeft, bottomRight Vec) Rect {
 	return Rect{X: topLeft.X, Y: topLeft.Y, W: bottomRight.X - topLeft.X, H: bottomRight.Y - topLeft.Y}
+}
+
+// Rectangle creates a Rect from an image.Rectangle.
+func Rectangle(r image.Rectangle) Rect {
+	r = r.Canon()
+	return Rect{
+		X: float64(r.Min.X), Y: float64(r.Min.Y),
+		W: float64(r.Dx()), H: float64(r.Dy()),
+	}
+}
+
+// Rectangle converts a Rect to image.Rectangle, discarding any fractional components.
+func (r Rect) Rectangle() image.Rectangle {
+	return image.Rect(int(r.X), int(r.Y), int(r.Right()), int(r.Bottom()))
 }
 
 // Top returns the top boundary.

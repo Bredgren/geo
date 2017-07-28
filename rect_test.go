@@ -13,6 +13,23 @@ func TestMakeRect(t *testing.T) {
 	if got != want {
 		t.Errorf("got %s, want %s", got, want)
 	}
+
+	r := RectCorners(-1.2, -3.4, 5.6, 7.8)
+	ir := r.Rectangle()
+	got = Rectangle(ir)
+	if got.X != -1 || got.Y != -3 || got.Right() != 5 || got.Bottom() != 7 {
+		t.Errorf("got %s r: %g, b: %g, want %s", got, got.Right(), got.Bottom(), ir)
+	}
+
+}
+
+func TestRectString(t *testing.T) {
+	r := Rect{X: -1.2, Y: 3.4, W: 5.6, H: 7.8}
+	got := r.String()
+	want := "Rect(-1.2, 3.4, w5.6, h7.8)"
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
 }
 
 func TestRectGetSetFuncs(t *testing.T) {
