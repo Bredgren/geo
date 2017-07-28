@@ -1,6 +1,7 @@
 package geo
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 )
@@ -18,6 +19,10 @@ type Vec struct {
 // returns two floats.
 func VecXY(x, y float64) Vec {
 	return Vec{X: x, Y: y}
+}
+
+func (v Vec) String() string {
+	return fmt.Sprintf("Vec(%f, %f)", v.X, v.Y)
 }
 
 // XY returns the Vec's components. Useful for passing a Vec to a function that takes
