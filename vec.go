@@ -14,9 +14,9 @@ type Vec struct {
 	X, Y float64
 }
 
-// VecFn constructs a Vec from its arguments. Useful for making a Vec from a function that
-// returns two floats (like some Rect functions).
-func VecFn(x, y float64) Vec {
+// VecXY constructs a Vec from its arguments. Useful for making a Vec from a function that
+// returns two floats.
+func VecXY(x, y float64) Vec {
 	return Vec{X: x, Y: y}
 }
 
@@ -33,7 +33,7 @@ func (v Vec) Equals(v2 Vec, e float64) bool {
 
 // Len returns the length of the vector.
 func (v Vec) Len() float64 {
-	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+	return math.Hypot(v.X, v.Y)
 }
 
 // Len2 is the length of the vector squared.
@@ -44,7 +44,7 @@ func (v Vec) Len2() float64 {
 // SetLen sets the length of the vector. Negative lengths will flip the vectors direction.
 // If v's length is zero then it will remain unchanged.
 func (v *Vec) SetLen(l float64) {
-	len := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	len := v.Len()
 	if len == 0 {
 		return
 	}
@@ -55,7 +55,7 @@ func (v *Vec) SetLen(l float64) {
 // WithLen returns a new vector in the same direction as v but with the given length.
 // It v's length is 0 then the zero vector is returned.
 func (v Vec) WithLen(l float64) Vec {
-	len := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	len := v.Len()
 	if len == 0 {
 		return Vec{}
 	}
@@ -66,7 +66,7 @@ func (v Vec) WithLen(l float64) Vec {
 
 // Dist returns the distance between the two vectors.
 func (v Vec) Dist(v2 Vec) float64 {
-	return math.Sqrt((v.X-v2.X)*(v.X-v2.X) + (v.Y-v2.Y)*(v.Y-v2.Y))
+	return math.Hypot(v.X-v2.X, v.Y-v2.Y)
 }
 
 // Dist2 returns the distance squared between the two vectors.
@@ -120,14 +120,14 @@ func (v Vec) DividedBy(n float64) Vec {
 
 // Normalize modifies v to be of length one in the same direction.
 func (v *Vec) Normalize() {
-	len := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	len := v.Len()
 	v.X = v.X / len
 	v.Y = v.Y / len
 }
 
 // Normalized returns a new vector of length one in the same direction as v.
 func (v Vec) Normalized() Vec {
-	len := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	len := v.Len()
 	return Vec{X: v.X / len, Y: v.Y / len}
 }
 

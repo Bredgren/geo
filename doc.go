@@ -9,12 +9,14 @@
 //  a new particle is created giving the user total control over behavior of the initial
 //  velocities.
 //
-//  Vec
-//   2-D Vector with many useful functions for working with it by value or reference.
 //
-//  Rect
-//   Defines a rectangular area. Like Vec it also has many functions for values and references.
+// Vec
+//  2-D Vector with many useful functions for working with it by value or reference.
 //
-//  TODO:
-//   - collison
+// Rect
+//  Defines a rectangular area. Like Vec it also has many functions for values and references.
+//
+// TODO:
+//  - collison
+//  - String functions
 package geo

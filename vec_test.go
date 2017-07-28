@@ -19,7 +19,7 @@ func TestVecFn(t *testing.T) {
 	f := func() (x, y float64) {
 		return 1, 2
 	}
-	got := VecFn(f())
+	got := VecXY(f())
 	want := Vec{X: 1, Y: 2}
 	if !got.Equals(want, e) {
 		t.Errorf("got %#v, want %#v", got, want)
