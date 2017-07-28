@@ -2,6 +2,19 @@ package geo
 
 import "testing"
 
+func TestMakeRect(t *testing.T) {
+	want := Rect{X: 1, Y: 2, W: 2, H: 3}
+	got := RectCorners(1, 2, 3, 5)
+	if got != want {
+		t.Errorf("got: %#v, want: %#v", got, want)
+	}
+
+	got = RectCornersVec(Vec{X: 1, Y: 2}, Vec{X: 3, Y: 5})
+	if got != want {
+		t.Errorf("got: %#v, want: %#v", got, want)
+	}
+}
+
 func TestRectInflate(t *testing.T) {
 	cases := []struct {
 		dw, dh  float64

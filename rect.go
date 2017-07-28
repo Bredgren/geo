@@ -133,78 +133,78 @@ func (r *Rect) SetBottomRight(x, y float64) {
 	r.SetBottom(y)
 }
 
-// MidTop returns the coordinates at the top of the rectangle above the center.
-func (r Rect) MidTop() (x, y float64) {
-	return r.CenterX(), r.Top()
+// TopMid returns the coordinates at the top of the rectangle above the center.
+func (r Rect) TopMid() (x, y float64) {
+	return r.MidX(), r.Top()
 }
 
-// SetMidTop sets the coordinates at the top of the rectangle above the center.
-func (r *Rect) SetMidTop(x, y float64) {
-	r.SetCenterX(x)
+// SetTopMid sets the coordinates at the top of the rectangle above the center.
+func (r *Rect) SetTopMid(x, y float64) {
+	r.SetMidX(x)
 	r.SetTop(y)
 }
 
-// MidBottom returns the coordinates at the bottom of the rectangle below the center.
-func (r Rect) MidBottom() (x, y float64) {
-	return r.CenterX(), r.Bottom()
+// BottomMid returns the coordinates at the bottom of the rectangle below the center.
+func (r Rect) BottomMid() (x, y float64) {
+	return r.MidX(), r.Bottom()
 }
 
-// SetMidBottom sets the coordinates at the bottom of the rectangle below the center.
-func (r *Rect) SetMidBottom(x, y float64) {
-	r.SetCenterX(x)
+// SetBottomMid sets the coordinates at the bottom of the rectangle below the center.
+func (r *Rect) SetBottomMid(x, y float64) {
+	r.SetMidX(x)
 	r.SetBottom(y)
 }
 
-// MidLeft returns the coordinates at the left of the rectangle in line with the center.
-func (r Rect) MidLeft() (x, y float64) {
-	return r.Left(), r.CenterY()
+// LeftMid returns the coordinates at the left of the rectangle in line with the center.
+func (r Rect) LeftMid() (x, y float64) {
+	return r.Left(), r.MidY()
 }
 
-// SetMidLeft sets the coordinates at the left of the rectangle in line with the center.
-func (r *Rect) SetMidLeft(x, y float64) {
+// SetLeftMid sets the coordinates at the left of the rectangle in line with the center.
+func (r *Rect) SetLeftMid(x, y float64) {
 	r.SetLeft(x)
-	r.SetCenterY(y)
+	r.SetMidY(y)
 }
 
-// MidRight returns the coordinates at the right of the rectangle in line with the center.
-func (r Rect) MidRight() (x, y float64) {
-	return r.Right(), r.CenterY()
+// RightMid returns the coordinates at the right of the rectangle in line with the center.
+func (r Rect) RightMid() (x, y float64) {
+	return r.Right(), r.MidY()
 }
 
-// SetMidRight sets the coordinates at the right of the rectangle in line with the center.
-func (r *Rect) SetMidRight(x, y float64) {
+// SetRightMid sets the coordinates at the right of the rectangle in line with the center.
+func (r *Rect) SetRightMid(x, y float64) {
 	r.SetRight(x)
-	r.SetCenterY(y)
+	r.SetMidY(y)
 }
 
-// Center returns the center coordinates.
-func (r Rect) Center() (x, y float64) {
-	return r.CenterX(), r.CenterY()
+// Mid returns the center coordinates.
+func (r Rect) Mid() (x, y float64) {
+	return r.MidX(), r.MidY()
 }
 
-// SetCenter sets the center coordinates.
-func (r *Rect) SetCenter(x, y float64) {
-	r.SetCenterX(x)
-	r.SetCenterY(y)
+// SetMid sets the center coordinates.
+func (r *Rect) SetMid(x, y float64) {
+	r.SetMidX(x)
+	r.SetMidY(y)
 }
 
-// CenterX returns the center x coordinates
-func (r Rect) CenterX() float64 {
+// MidX returns the center x coordinates
+func (r Rect) MidX() float64 {
 	return r.X + r.W/2
 }
 
 // SetCenterX sets the center x coordinates.
-func (r *Rect) SetCenterX(x float64) {
+func (r *Rect) SetMidX(x float64) {
 	r.X = x - r.W/2
 }
 
 // CenterY returns the center y coordinates.
-func (r Rect) CenterY() float64 {
+func (r Rect) MidY() float64 {
 	return r.Y + r.H/2
 }
 
 // SetCenterY set the center y coordinates.
-func (r *Rect) SetCenterY(y float64) {
+func (r *Rect) SetMidY(y float64) {
 	r.Y = y - r.H/2
 }
 
@@ -241,12 +241,12 @@ func (r Rect) Inflated(dw, dh float64) Rect {
 // centered within bounds.
 func (r *Rect) Clamp(bounds Rect) {
 	if r.W > bounds.W {
-		r.SetCenterX(bounds.CenterX())
+		r.SetMidX(bounds.MidX())
 	} else {
 		r.X = Clamp(r.X, bounds.X, bounds.Right()-r.W)
 	}
 	if r.H > bounds.H {
-		r.SetCenterY(bounds.CenterY())
+		r.SetMidY(bounds.MidY())
 	} else {
 		r.Y = Clamp(r.Y, bounds.Y, bounds.Bottom()-r.H)
 	}
@@ -257,12 +257,12 @@ func (r *Rect) Clamp(bounds Rect) {
 func (r Rect) Clamped(bounds Rect) Rect {
 	var newX, newY float64
 	if r.W > bounds.W {
-		newX = bounds.CenterX() - r.W/2
+		newX = bounds.MidX() - r.W/2
 	} else {
 		newX = Clamp(r.X, bounds.X, bounds.Right()-r.W)
 	}
 	if r.H > bounds.H {
-		newY = bounds.CenterY() - r.H/2
+		newY = bounds.MidY() - r.H/2
 	} else {
 		newY = Clamp(r.Y, bounds.Y, bounds.Bottom()-r.H)
 	}
