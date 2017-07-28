@@ -15,6 +15,80 @@ func TestMakeRect(t *testing.T) {
 	}
 }
 
+func TestRectGetSetFuncs(t *testing.T) {
+	r := Rect{X: -4, Y: 3, W: 10, H: 6}
+
+	check := func(name string, fn func() float64, want float64) {
+		got := fn()
+		if got != want {
+			t.Errorf("%s: got: %f, want: %f", name, got, want)
+		}
+	}
+
+	check2 := func(name string, fn func() (float64, float64), want1, want2 float64) {
+		got1, got2 := fn()
+		if got1 != want1 || got2 != want2 {
+			t.Errorf("%s: got: %f, %f, want: %f, %f", name, got1, got2, want1, want2)
+		}
+	}
+
+	check("top", r.Top, 3)
+	check("left", r.Left, -4)
+	check("right", r.Right, 6)
+	check("bottom", r.Bottom, 9)
+
+	check2("size", r.Size, 10, 6)
+
+	check2("top left", r.TopLeft, -4, 3)
+	check2("top mid", r.TopMid, 1, 3)
+	check2("top right", r.TopRight, 6, 3)
+	check2("left mid", r.LeftMid, -4, 6)
+	check2("mid", r.Mid, 1, 6)
+	check("mid x", r.MidX, 1)
+	check("mid y", r.MidY, 6)
+	check2("right mid", r.RightMid, 6, 6)
+	check2("bottom left", r.BottomLeft, -4, 9)
+	check2("bottom mid", r.BottomMid, 1, 9)
+	check2("bottom right", r.BottomRight, 6, 9)
+
+	check("area", r.Area, 60)
+
+	r.SetTop(1)
+	check("set top", r.Top, 1)
+	r.SetLeft(-2)
+	check("set left", r.Left, -2)
+	r.SetRight(10)
+	check("set right", r.Right, 10)
+	r.SetBottom(11)
+	check("set bottom", r.Bottom, 11)
+
+	r.SetSize(6, 10)
+	check2("set size", r.Size, 6, 10)
+
+	r.SetTopLeft(2, -3)
+	check2("set top left", r.TopLeft, 2, -3)
+	r.SetTopMid(3, -4)
+	check2("set top mid", r.TopMid, 3, -4)
+	r.SetTopRight(7, -4)
+	check2("set top right", r.TopRight, 7, -4)
+	r.SetLeftMid(-6, 0)
+	check2("set left mid", r.LeftMid, -6, 0)
+	r.SetMid(-1, -1)
+	check2("set mid", r.Mid, -1, -1)
+	r.SetMidX(2)
+	check("set mid x", r.MidX, 2)
+	r.SetMidY(4)
+	check("set mid y", r.MidY, 4)
+	r.SetRightMid(-1, 5)
+	check2("set right mid", r.RightMid, -1, 5)
+	r.SetBottomLeft(5, -5)
+	check2("set bottom left", r.BottomLeft, 5, -5)
+	r.SetBottomMid(-4, 4)
+	check2("set bottom mid", r.BottomMid, -4, 4)
+	r.SetBottomRight(-6, -10)
+	check2("set bottom right", r.BottomRight, -6, -10)
+}
+
 func TestRectInflate(t *testing.T) {
 	cases := []struct {
 		dw, dh  float64

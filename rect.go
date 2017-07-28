@@ -2,8 +2,7 @@ package geo
 
 import "math"
 
-// Rect defines rectangular coordinates. In the interest of being more broadly useful
-// its API doesn't rely on Vec.
+// Rect defines rectangular coordinates, by the top left corner (X, Y), width W and height H.
 type Rect struct {
 	X, Y, W, H float64
 }
@@ -58,26 +57,6 @@ func (r *Rect) SetRight(right float64) {
 	r.X = right - r.W
 }
 
-// Width returns the width.
-func (r Rect) Width() float64 {
-	return r.W
-}
-
-// SetWidth sets the width.
-func (r *Rect) SetWidth(w float64) {
-	r.W = w
-}
-
-// Height returns the height.
-func (r Rect) Height() float64 {
-	return r.H
-}
-
-// SetHeight sets the height.
-func (r *Rect) SetHeight(h float64) {
-	r.H = h
-}
-
 // Size returns the width and height.
 func (r Rect) Size() (w, h float64) {
 	return r.W, r.H
@@ -85,8 +64,8 @@ func (r Rect) Size() (w, h float64) {
 
 // SetSize sets the width and height.
 func (r *Rect) SetSize(w, h float64) {
-	r.SetWidth(w)
-	r.SetHeight(h)
+	r.W = w
+	r.H = h
 }
 
 // TopLeft returns the coordinates of the top left corner.
