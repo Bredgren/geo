@@ -2,6 +2,7 @@ package geo
 
 import (
 	"fmt"
+	"image"
 	"math"
 	"math/rand"
 )
@@ -21,8 +22,18 @@ func VecXY(x, y float64) Vec {
 	return Vec{X: x, Y: y}
 }
 
+// VecPoint creates a Vec from an image.Point.
+func VecPoint(p image.Point) Vec {
+	return Vec{X: float64(p.X), Y: float64(p.Y)}
+}
+
+// Point turns the Vec into an image.Point, discarding any fractional components to X and Y.
+func (v Vec) Point() image.Point {
+	return image.Pt(int(v.X), int(v.Y))
+}
+
 func (v Vec) String() string {
-	return fmt.Sprintf("Vec(%f, %f)", v.X, v.Y)
+	return fmt.Sprintf("Vec(%g, %g)", v.X, v.Y)
 }
 
 // XY returns the Vec's components. Useful for passing a Vec to a function that takes

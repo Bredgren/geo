@@ -31,6 +31,24 @@ func TestVecXY(t *testing.T) {
 	}
 }
 
+func TestVecPoint(t *testing.T) {
+	v := Vec{X: 1.1, Y: -2.2}
+	p := v.Point()
+	v2 := VecPoint(p)
+	if v2.X != 1 || v2.Y != -2 {
+		t.Errorf("got %s, want %s", v2, p)
+	}
+}
+
+func TestVecString(t *testing.T) {
+	v := Vec{X: -1.2, Y: 3.4}
+	got := v.String()
+	want := "Vec(-1.2, 3.4)"
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
+
 func TestVecLen(t *testing.T) {
 	cases := []struct {
 		v    Vec
