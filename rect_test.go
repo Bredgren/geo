@@ -87,6 +87,11 @@ func TestRectGetSetFuncs(t *testing.T) {
 	check2("set bottom mid", r.BottomMid, -4, 4)
 	r.SetBottomRight(-6, -10)
 	check2("set bottom right", r.BottomRight, -6, -10)
+
+	r.Move(10, -12)
+	check2("move", r.BottomRight, 4, -22)
+	got := r.Moved(-5, 6)
+	check2("moved", got.BottomRight, -1, -16)
 }
 
 func TestRectInflate(t *testing.T) {
@@ -198,6 +203,10 @@ func TestRectUnionAll(t *testing.T) {
 			},
 			want: Rect{X: 0, Y: -1, W: 8, H: 9},
 		},
+		{
+			rs:   []Rect{},
+			want: Rect{},
+		},
 	}
 
 	for i, c := range cases {
@@ -255,6 +264,10 @@ func TestRectNormalize(t *testing.T) {
 	}
 
 	for i, c := range cases {
+		got := c.r.Normalized()
+		if got != c.want {
+			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+		}
 		c.r.Normalize()
 		if c.r != c.want {
 			t.Errorf("case %d: got %#v, want %#v", i, c.r, c.want)
