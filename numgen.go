@@ -73,7 +73,8 @@ func OffsetVec(gen VecGen, offset VecGen) VecGen {
 }
 
 // RandVecCircle returns a VecGen that will generate a random vector whose length is
-// in [min(radius1, radius2), max(radius1, radius2)).
+// in [min(radius1, radius2), max(radius1, radius2)), and is uniformly distributed within
+// the circle.
 func RandVecCircle(radius1, radius2 float64) VecGen {
 	if radius1 > radius2 {
 		radius1, radius2 = radius2, radius1
@@ -101,35 +102,35 @@ func RandVecArc(radius1, radius2, radians1, radians2 float64) VecGen {
 	}
 }
 
-// // RandVecRect returns a VecGen that will generate a random vector within the given Rect.
-// func RandVecRect(rect Rect) VecGen {
-// 	return func() Vec {
-// 		return Vec{
-// 			X: rand.Float64()*rect.W + rect.X,
-// 			Y: rand.Float64()*rect.H + rect.Y,
-// 		}
-// 	}
-// }
-//
-// // RandVecRects returns a VecGen that will generate a random vector that is uniformly
-// // distributed between all the given rects. If the slice given is empty then the zero
-// // vector is returned.
-// func RandVecRects(rects []Rect) VecGen {
-// 	if len(rects) == 0 {
-// 		return func() Vec { return Vec{} }
-// 	}
-// 	areas := make([]float64, len(rects))
-// 	for i := range rects {
-// 		areas[i] = rects[i].Area()
-// 	}
-// 	return func() Vec {
-// 		rect := rects[wrand.SelectIndex(areas)]
-// 		return Vec{
-// 			X: rand.Float64()*rect.W + rect.X,
-// 			Y: rand.Float64()*rect.H + rect.Y,
-// 		}
-// 	}
-// }
+// RandVecRect returns a VecGen that will generate a random vector within the given Rect.
+func RandVecRect(rect Rect) VecGen {
+	return func() Vec {
+		return Vec{
+			X: rand.Float64()*rect.W + rect.X,
+			Y: rand.Float64()*rect.H + rect.Y,
+		}
+	}
+}
+
+// RandVecRects returns a VecGen that will generate a random vector that is uniformly
+// distributed between all the given rects. If the slice given is empty then the zero
+// vector is returned.
+func RandVecRects(rects []Rect) VecGen {
+	if len(rects) == 0 {
+		return func() Vec { return Vec{} }
+	}
+	areas := make([]float64, len(rects))
+	for i := range rects {
+		areas[i] = rects[i].Area()
+	}
+	return func() Vec {
+		rect := rects[RandIndex(areas)]
+		return Vec{
+			X: rand.Float64()*rect.W + rect.X,
+			Y: rand.Float64()*rect.H + rect.Y,
+		}
+	}
+}
 
 // Returns a uniformaly distributed radius between minR and maxR.
 func circleRadius(minR, maxR float64) float64 {
