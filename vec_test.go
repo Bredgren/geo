@@ -15,7 +15,7 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func TestVecFn(t *testing.T) {
+func TestVecXY(t *testing.T) {
 	f := func() (x, y float64) {
 		return 1, 2
 	}
@@ -23,6 +23,11 @@ func TestVecFn(t *testing.T) {
 	want := Vec{X: 1, Y: 2}
 	if !got.Equals(want, e) {
 		t.Errorf("got %#v, want %#v", got, want)
+	}
+
+	x, y := got.XY()
+	if x != 1 || y != 2 {
+		t.Errorf("got %f, %f, want %f, %f", x, y, got.X, got.Y)
 	}
 }
 
