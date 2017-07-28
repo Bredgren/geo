@@ -333,3 +333,90 @@ func TestRectCollideRect(t *testing.T) {
 		}
 	}
 }
+
+func TestRectCollideList(t *testing.T) {
+	cases := []struct {
+		r    Rect
+		rs   []Rect
+		want int
+		ok   bool
+	}{
+		{Rect{X: 1, Y: 1, W: 5, H: 5},
+			[]Rect{
+				Rect{X: 0, Y: 0, W: 7, H: 1},
+				Rect{X: 0, Y: 0, W: 1, H: 7},
+				Rect{X: 6, Y: 0, W: 2, H: 7},
+				Rect{X: 0, Y: 6, W: 7, H: 2},
+				Rect{X: 0, Y: 0, W: 2, H: 2},
+				Rect{X: 5, Y: 5, W: 2, H: 2},
+			},
+			5, true,
+		},
+		{Rect{X: 1, Y: 1, W: 5, H: 5},
+			[]Rect{
+				Rect{X: 0, Y: 0, W: 7, H: 1},
+				Rect{X: 0, Y: 0, W: 1, H: 7},
+				Rect{X: 6, Y: 0, W: 2, H: 7},
+				Rect{X: 0, Y: 6, W: 7, H: 2},
+			},
+			0, false,
+		},
+		{Rect{X: 1, Y: 1, W: 5, H: 5}, []Rect{}, 0, false},
+	}
+
+	for i, c := range cases {
+		got, ok := c.r.CollideRectList(c.rs)
+		if c.ok == ok && got != c.want {
+			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+		}
+	}
+}
+
+func TestRectCollideListAll(t *testing.T) {
+	cases := []struct {
+		r    Rect
+		rs   []Rect
+		want []int
+	}{
+		{Rect{X: 1, Y: 1, W: 5, H: 5},
+			[]Rect{
+				Rect{X: 0, Y: 0, W: 7, H: 1},
+				Rect{X: 0, Y: 0, W: 1, H: 7},
+				Rect{X: 6, Y: 0, W: 2, H: 7},
+				Rect{X: 0, Y: 0, W: 2, H: 2},
+				Rect{X: 0, Y: 6, W: 7, H: 2},
+				Rect{X: 5, Y: 5, W: 2, H: 2},
+			},
+			[]int{3, 5},
+		},
+		{Rect{X: 1, Y: 1, W: 5, H: 5},
+			[]Rect{
+				Rect{X: 0, Y: 0, W: 7, H: 1},
+				Rect{X: 0, Y: 0, W: 1, H: 7},
+				Rect{X: 6, Y: 0, W: 2, H: 7},
+				Rect{X: 0, Y: 6, W: 7, H: 2},
+			},
+			[]int{},
+		},
+		{Rect{X: 1, Y: 1, W: 5, H: 5}, []Rect{}, []int{}},
+	}
+
+	listEqual := func(a, b []int) bool {
+		if len(a) != len(b) {
+			return false
+		}
+		for i, n := range a {
+			if n != b[i] {
+				return false
+			}
+		}
+		return true
+	}
+
+	for i, c := range cases {
+		got := c.r.CollideRectListAll(c.rs)
+		if !listEqual(got, c.want) {
+			t.Errorf("case %d: got %#v, want %#v", i, got, c.want)
+		}
+	}
+}

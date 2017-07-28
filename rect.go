@@ -345,20 +345,20 @@ func (r Rect) CollideRect(other Rect) bool {
 	return r.X < other.Right() && r.Right() > other.X && r.Y < other.Bottom() && r.Bottom() > other.Y
 }
 
-// CollideList returns the index of the first Rect this one collides with, or -1 if it
-// collides with none.
-func (r Rect) CollideList(others []Rect) int {
+// CollideRectList returns the index of the first Rect this one collides with. If it there
+// is no collision then ok is false and i is undefined.
+func (r Rect) CollideRectList(others []Rect) (i int, ok bool) {
 	for i, other := range others {
 		if r.CollideRect(other) {
-			return i
+			return i, ok
 		}
 	}
-	return -1
+	return
 }
 
-// CollideListAll returns a list of indices of the Rects that collide with this one, or an
+// CollideRectListAll returns a list of indices of the Rects that collide with this one, or an
 // empty list if none.
-func (r Rect) CollideListAll(others []Rect) []int {
+func (r Rect) CollideRectListAll(others []Rect) []int {
 	list := make([]int, 0, len(others))
 	for i, other := range others {
 		if r.CollideRect(other) {
