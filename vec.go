@@ -233,5 +233,15 @@ func (v Vec) Modded(r Rect) Vec {
 	return v
 }
 
-// func Map(Rect, Rect) {
-// }
+// Map takes v relative to r1 and moves it to the same relative position in r2. E.g.
+// if v is in the center of r1 it will be moved to the center of r2.
+func (v *Vec) Map(r1, r2 Rect) {
+	v.X = Map(v.X, r1.Left(), r1.Right(), r2.Left(), r2.Right())
+	v.Y = Map(v.Y, r1.Top(), r1.Bottom(), r2.Top(), r2.Bottom())
+}
+
+// Mapped is like Map but returns a new Vec instead of modifing this one.
+func (v Vec) Mapped(r1, r2 Rect) Vec {
+	v.Map(r1, r2)
+	return v
+}

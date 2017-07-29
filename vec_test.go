@@ -475,3 +475,29 @@ func TestVecMod(t *testing.T) {
 		}
 	}
 }
+
+func TestVecMap(t *testing.T) {
+	cases := []struct {
+		v      Vec
+		r1, r2 Rect
+		want   Vec
+	}{
+		{VecXY(1, 1), RectXYWH(0, 0, 4, 4), RectXYWH(2, 2, 4, 4), VecXY(3, 3)},
+		{VecXY(1, 1), RectXYWH(0, 0, 4, 4), RectXYWH(2, 2, 8, 8), VecXY(4, 4)},
+	}
+
+	for i, c := range cases {
+		got := c.v
+		got.Map(c.r1, c.r2)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+
+	for i, c := range cases {
+		got := c.v.Mapped(c.r1, c.r2)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+}
