@@ -389,7 +389,7 @@ func (r Rect) CollideRect(other Rect) bool {
 	return r.X < other.Right() && r.Right() > other.X && r.Y < other.Bottom() && r.Bottom() > other.Y
 }
 
-// CollideRectList returns the index of the first Rect this one collides with. If it there
+// CollideRectList returns the index of the first Rect this one collides with. If there
 // is no collision then ok is false and i is undefined.
 func (r Rect) CollideRectList(others []Rect) (i int, ok bool) {
 	for i, other := range others {
