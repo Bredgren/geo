@@ -22,5 +22,4 @@
 // TODO:
 //  - circle
 //  - camera
-//  - noise
 package geo
