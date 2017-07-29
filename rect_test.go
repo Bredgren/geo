@@ -4,7 +4,12 @@ import "testing"
 
 func TestMakeRect(t *testing.T) {
 	want := Rect{X: 1, Y: 2, W: 2, H: 3}
-	got := RectCorners(1, 2, 3, 5)
+	got := RectXYWH(1, 2, 2, 3)
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+
+	got = RectCorners(1, 2, 3, 5)
 	if got != want {
 		t.Errorf("got %s, want %s", got, want)
 	}

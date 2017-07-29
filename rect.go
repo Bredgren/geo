@@ -15,6 +15,11 @@ func (r Rect) String() string {
 	return fmt.Sprintf("Rect(%g, %g, w%g, h%g)", r.X, r.Y, r.W, r.H)
 }
 
+// RectXYWH creates a Rect with top left corner (x, y) and size (w, h).
+func RectXYWH(x, y, w, h float64) Rect {
+	return Rect{X: x, Y: y, W: w, H: h}
+}
+
 // RectCorners creates a rect given top left and bottom right corners.
 func RectCorners(x1, y1, x2, y2 float64) Rect {
 	return Rect{X: x1, Y: y1, W: x2 - x1, H: y2 - y1}
