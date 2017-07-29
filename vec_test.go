@@ -447,3 +447,31 @@ func TestVecRotateStress(t *testing.T) {
 		}
 	}
 }
+
+func TestVecMod(t *testing.T) {
+	cases := []struct {
+		v    Vec
+		r    Rect
+		want Vec
+	}{
+		{VecXY(1, 2), RectXYWH(0, 0, 4, 4), VecXY(1, 2)},
+		{VecXY(0, 4), RectXYWH(0, 0, 4, 4), VecXY(0, 0)},
+		{VecXY(-6, 5), RectXYWH(0, 0, 4, 4), VecXY(2, 1)},
+		{VecXY(-6, 10), RectXYWH(1, 5, 4, 4), VecXY(2, 6)},
+	}
+
+	for i, c := range cases {
+		got := c.v
+		got.Mod(c.r)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+
+	for i, c := range cases {
+		got := c.v.Modded(c.r)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+}

@@ -221,8 +221,17 @@ func RandVec() Vec {
 	return Vec{X: math.Cos(rad), Y: math.Sin(rad)}
 }
 
-// TODO:
-// func Mod(Rect) {
-// }
+// Mod "wraps" the vector around the Rect so it stays with its bounds.
+func (v *Vec) Mod(r Rect) {
+	v.X = Mod(v.X-r.Left(), r.W) + r.Left()
+	v.Y = Mod(v.Y-r.Top(), r.H) + r.Top()
+}
+
+// Modded is like Mod but returns a new Vec instead of modifing this one.
+func (v Vec) Modded(r Rect) Vec {
+	v.Mod(r)
+	return v
+}
+
 // func Map(Rect, Rect) {
 // }
