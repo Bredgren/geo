@@ -42,14 +42,14 @@ func RandIndex(weights []float64) int {
 	return sort.SearchFloat64s(cumWeights, rnd)
 }
 
-// func Map(n, a1, b1, a2, b2 float64) float64 {
-// 	range1 := b1 - a1
-// 	if range1 == 0.0 {
-// 		return a2
-// 	}
-// 	range2 := b2 - a1
-// 	offset := n - a1
-// 	percent := offset / range1
-// 	newOffset := percent * range2
-// 	return a2 + newOffset
-// }
+// Map takes a number n in the range [a1, b1] and remaps it be in the range [a2, b2], with
+// its relative position within the range preserved. E.g if n is half way between a1 and b1
+// then the value returned will be half way between a2 and b2. If a1 == b1 then +Inf is returned.
+func Map(n, a1, b1, a2, b2 float64) float64 {
+	range1 := b1 - a1
+	range2 := b2 - a2
+	offset := n - a1
+	percent := offset / range1
+	newOffset := percent * range2
+	return a2 + newOffset
+}
