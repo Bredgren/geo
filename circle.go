@@ -326,29 +326,34 @@ func (c Circle) Unioned(other Circle) Circle {
 	return c
 }
 
-// EnclosingCircle returns the smallest Circle that encloses all the given points.
-func EnclosingCircle(points []Vec) Circle {
-	return enclosingCircle(points, []Vec{})
-}
-
-func enclosingCircle(points []Vec, pointsOnBoundary []Vec) Circle {
-	// http://www.sunshine2k.de/coding/java/Welzl/Welzl.html
-	// if (P is empty or |R| = 3) then
-	//        D := calcDiskDirectly(R)
-	//   else
-	//       choose a p from P randomly;
-	//       D := sed(P - {p}, R);
-	//       if (p lies NOT inside D) then
-	//           D := sed(P - {p}, R u {p});
-	//   return D;
-	return Circle{}
-}
-
-// CircleUnion retusn the smallest Circle that encloses all the given Circles.
-func CircleUnion(circles []Circle) Circle {
-	// https://bl.ocks.org/mbostock/29c534ff0b270054a01c
-	return Circle{}
-}
+// // EnclosingCircle returns the smallest Circle that encloses all the given points.
+// func EnclosingCircle(points []Vec) Circle {
+// 	shuffled := make([]Vec, len(points))
+// 	perm := rand.Perm(len(points))
+// 	for i, v := range perm {
+// 		shuffled[v] = points[i]
+// 	}
+// 	return enclosingCircle(shuffled, []Vec{})
+// }
+//
+// func enclosingCircle(points []Vec, pointsOnBoundary []Vec) Circle {
+// 	// http://www.sunshine2k.de/coding/java/Welzl/Welzl.html
+// 	// if (P is empty or |R| = 3) then
+// 	//        D := calcDiskDirectly(R)
+// 	//   else
+// 	//       choose a p from P randomly;
+// 	//       D := sed(P - {p}, R);
+// 	//       if (p lies NOT inside D) then
+// 	//           D := sed(P - {p}, R u {p});
+// 	//   return D;
+// 	return Circle{}
+// }
+//
+// // CircleUnion retusn the smallest Circle that encloses all the given Circles.
+// func CircleUnion(circles []Circle) Circle {
+// 	// https://bl.ocks.org/mbostock/29c534ff0b270054a01c
+// 	return Circle{}
+// }
 
 // BoundingRect returns the smallest Rect that surrounds the Circle.
 func (c Circle) BoundingRect() Rect {
