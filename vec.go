@@ -16,6 +16,8 @@ type Vec struct {
 	X, Y float64
 }
 
+var Vec0 = Vec{}
+
 // VecXY constructs a Vec from its arguments. Useful for making a Vec from a function that
 // returns two floats.
 func VecXY(x, y float64) Vec {
