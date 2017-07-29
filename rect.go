@@ -394,7 +394,7 @@ func (r Rect) CollideRect(other Rect) bool {
 func (r Rect) CollideRectList(others []Rect) (i int, ok bool) {
 	for i, other := range others {
 		if r.CollideRect(other) {
-			return i, ok
+			return i, true
 		}
 	}
 	return

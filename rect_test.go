@@ -2,6 +2,34 @@ package geo
 
 import "testing"
 
+func check(t *testing.T, name string, fn func() float64, want float64) {
+	got := fn()
+	if got != want {
+		t.Errorf("%s: got %f, want %f", name, got, want)
+	}
+}
+
+func check2(t *testing.T, name string, fn func() (float64, float64), want1, want2 float64) {
+	got1, got2 := fn()
+	if got1 != want1 || got2 != want2 {
+		t.Errorf("%s: got %f, %f, want %f, %f", name, got1, got2, want1, want2)
+	}
+}
+
+func check3(t *testing.T, name string, fn func() (float64, float64, float64), want1, want2, want3 float64) {
+	got1, got2, got3 := fn()
+	if got1 != want1 || got2 != want2 || got3 != want3 {
+		t.Errorf("%s: got %f, %f, %f, want %f, %f, %f", name, got1, got2, got3, want1, want2, want3)
+	}
+}
+
+func checkVec(t *testing.T, name string, fn func() Vec, want Vec) {
+	got := fn()
+	if got != want {
+		t.Errorf("%s: got %s, want %s", name, got, want)
+	}
+}
+
 func TestMakeRect(t *testing.T) {
 	want := Rect{X: 1, Y: 2, W: 2, H: 3}
 	got := RectXYWH(1, 2, 2, 3)
@@ -55,80 +83,66 @@ func TestRectString(t *testing.T) {
 func TestRectGetSetFuncs(t *testing.T) {
 	r := Rect{X: -4, Y: 3, W: 10, H: 6}
 
-	check := func(name string, fn func() float64, want float64) {
-		got := fn()
-		if got != want {
-			t.Errorf("%s: got %f, want %f", name, got, want)
-		}
-	}
+	check(t, "top", r.Top, 3)
+	check(t, "left", r.Left, -4)
+	check(t, "right", r.Right, 6)
+	check(t, "bottom", r.Bottom, 9)
 
-	check2 := func(name string, fn func() (float64, float64), want1, want2 float64) {
-		got1, got2 := fn()
-		if got1 != want1 || got2 != want2 {
-			t.Errorf("%s: got %f, %f, want %f, %f", name, got1, got2, want1, want2)
-		}
-	}
+	check2(t, "size", r.Size, 10, 6)
 
-	check("top", r.Top, 3)
-	check("left", r.Left, -4)
-	check("right", r.Right, 6)
-	check("bottom", r.Bottom, 9)
+	check2(t, "top left", r.TopLeft, -4, 3)
+	check2(t, "top mid", r.TopMid, 1, 3)
+	check2(t, "top right", r.TopRight, 6, 3)
+	check2(t, "left mid", r.LeftMid, -4, 6)
+	check2(t, "mid", r.Mid, 1, 6)
+	check(t, "mid x", r.MidX, 1)
+	check(t, "mid y", r.MidY, 6)
+	check2(t, "right mid", r.RightMid, 6, 6)
+	check2(t, "bottom left", r.BottomLeft, -4, 9)
+	check2(t, "bottom mid", r.BottomMid, 1, 9)
+	check2(t, "bottom right", r.BottomRight, 6, 9)
 
-	check2("size", r.Size, 10, 6)
-
-	check2("top left", r.TopLeft, -4, 3)
-	check2("top mid", r.TopMid, 1, 3)
-	check2("top right", r.TopRight, 6, 3)
-	check2("left mid", r.LeftMid, -4, 6)
-	check2("mid", r.Mid, 1, 6)
-	check("mid x", r.MidX, 1)
-	check("mid y", r.MidY, 6)
-	check2("right mid", r.RightMid, 6, 6)
-	check2("bottom left", r.BottomLeft, -4, 9)
-	check2("bottom mid", r.BottomMid, 1, 9)
-	check2("bottom right", r.BottomRight, 6, 9)
-
-	check("area", r.Area, 60)
+	check(t, "area", r.Area, 60)
 
 	r.SetTop(1)
-	check("set top", r.Top, 1)
+	check(t, "set top", r.Top, 1)
 	r.SetLeft(-2)
-	check("set left", r.Left, -2)
+	check(t, "set left", r.Left, -2)
 	r.SetRight(10)
-	check("set right", r.Right, 10)
+	check(t, "set right", r.Right, 10)
 	r.SetBottom(11)
-	check("set bottom", r.Bottom, 11)
+	check(t, "set bottom", r.Bottom, 11)
 
 	r.SetSize(6, 10)
-	check2("set size", r.Size, 6, 10)
+	check2(t, "set size", r.Size, 6, 10)
 
 	r.SetTopLeft(2, -3)
-	check2("set top left", r.TopLeft, 2, -3)
+	check2(t, "set top left", r.TopLeft, 2, -3)
 	r.SetTopMid(3, -4)
-	check2("set top mid", r.TopMid, 3, -4)
+	check2(t, "set top mid", r.TopMid, 3, -4)
 	r.SetTopRight(7, -4)
-	check2("set top right", r.TopRight, 7, -4)
+	check2(t, "set top right", r.TopRight, 7, -4)
 	r.SetLeftMid(-6, 0)
-	check2("set left mid", r.LeftMid, -6, 0)
+	check2(t, "set left mid", r.LeftMid, -6, 0)
 	r.SetMid(-1, -1)
-	check2("set mid", r.Mid, -1, -1)
+	check2(t, "set mid", r.Mid, -1, -1)
 	r.SetMidX(2)
-	check("set mid x", r.MidX, 2)
+	check(t, "set mid x", r.MidX, 2)
 	r.SetMidY(4)
-	check("set mid y", r.MidY, 4)
+	check(t, "set mid y", r.MidY, 4)
 	r.SetRightMid(-1, 5)
-	check2("set right mid", r.RightMid, -1, 5)
+	check2(t, "set right mid", r.RightMid, -1, 5)
 	r.SetBottomLeft(5, -5)
-	check2("set bottom left", r.BottomLeft, 5, -5)
+	check2(t, "set bottom left", r.BottomLeft, 5, -5)
 	r.SetBottomMid(-4, 4)
-	check2("set bottom mid", r.BottomMid, -4, 4)
+	check2(t, "set bottom mid", r.BottomMid, -4, 4)
 	r.SetBottomRight(-6, -10)
-	check2("set bottom right", r.BottomRight, -6, -10)
+	check2(t, "set bottom right", r.BottomRight, -6, -10)
 
 	r.Move(10, -12)
-	check2("move", r.BottomRight, 4, -22)
+	check2(t, "move", r.BottomRight, 4, -22)
 	got := r.Moved(-5, 6)
-	check2("moved", got.BottomRight, -1, -16)
+	check2(t, "moved", got.BottomRight, -1, -16)
 }
 
 func TestRectInflate(t *testing.T) {
@@ -387,7 +401,7 @@ func TestRectCollideList(t *testing.T) {
 				Rect{X: 0, Y: 0, W: 2, H: 2},
 				Rect{X: 5, Y: 5, W: 2, H: 2},
 			},
-			5, true,
+			4, true,
 		},
 		{Rect{X: 1, Y: 1, W: 5, H: 5},
 			[]Rect{
