@@ -2,10 +2,10 @@
 // geared towards games.
 //
 // NumGen
-//  The functions that deal with NumGen/VecGen are usefull for when you want to generate
+//  The functions that deal with NumGen/VecGen are useful for when you want to generate
 //  random or specific series of numbers with some constraints. An example might be a
 //  particle system where, instead of taking a Vec for the initial particle velocity,
-//  it takes a VecGen supplied by the user. The particl system calls this VecGen whenever
+//  it takes a VecGen supplied by the user. The particle system calls this VecGen whenever
 //  a new particle is created giving the user total control over behavior of the initial
 //  velocities.
 //

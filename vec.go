@@ -9,7 +9,7 @@ import (
 
 // Vec is a 2-D vector. Many of the functions for Vec have two versions, one that modifies
 // the Vec and one that returns a new Vec. Their names follow a convention that is hopefully
-// inuitive. For example, when working with Vec as a value you use v1.Plus(v2) which returns
+// intuitive. For example, when working with Vec as a value you use v1.Plus(v2) which returns
 // a new value and reads like when working with other value types such as "1 + 2". The other
 // function, v1.Add(v2), adds v2 to v1 which actually modifies v1.
 type Vec struct {
@@ -27,7 +27,7 @@ func VecPoint(p image.Point) Vec {
 	return Vec{X: float64(p.X), Y: float64(p.Y)}
 }
 
-// Point turns the Vec into an image.Point, discarding any fractional components to X and Y.
+// Point converts a Vec into image.Point, discarding any fractional components to X and Y.
 func (v Vec) Point() image.Point {
 	return image.Pt(int(v.X), int(v.Y))
 }
@@ -159,7 +159,7 @@ func (v *Vec) Project(v2 Vec) {
 	v.X, v.Y = v2.X, v2.Y
 }
 
-// Projected return the vetor that is v projected onto v2.
+// Projected return the Vec that is v projected onto v2.
 func (v Vec) Projected(v2 Vec) Vec {
 	v2.Normalize()
 	v2.Mul(v.X*v2.X + v.Y*v2.Y)
@@ -220,3 +220,9 @@ func RandVec() Vec {
 	rad := rand.Float64() * 2 * math.Pi
 	return Vec{X: math.Cos(rad), Y: math.Sin(rad)}
 }
+
+// TODO:
+// func Mod(Rect) {
+// }
+// func Map(Rect, Rect) {
+// }

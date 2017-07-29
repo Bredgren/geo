@@ -14,12 +14,12 @@ func LerpVec(a, b Vec, t float64) Vec {
 	return Vec{X: Lerp(a.X, b.X, t), Y: Lerp(a.Y, b.Y, t)}
 }
 
-// Ease leterpolates from a to b by percent t following the path defined by easefn.
+// Ease interpolates from a to b by percent t following the path defined by easefn.
 func Ease(a, b, t float64, easefn EaseFn) float64 {
 	return Lerp(a, b, easefn(t))
 }
 
-// EaseVec leterpolates from a to b by percent t following the path defined by easefn.
+// EaseVec interpolates from a to b by percent t following the path defined by easefn.
 func EaseVec(a, b Vec, t float64, easefn EaseFn) Vec {
 	return Vec{X: Ease(a.X, b.X, t, easefn), Y: Ease(a.Y, b.Y, t, easefn)}
 }

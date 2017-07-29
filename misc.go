@@ -23,7 +23,7 @@ func Clamp(n, a, b float64) float64 {
 
 // RandIndex takes a list of weights and returns an index with a probability corresponding
 // to the relative weight of each index. Behavior is undefined if weights is the empty list.
-// A weight of 0 will never be selected unless all are 0, in which case all indicies have
+// A weight of 0 will never be selected unless all are 0, in which case all indices have
 // equal probability. Negative weights are treated as 0.
 func RandIndex(weights []float64) int {
 	cumWeights := make([]float64, len(weights))
@@ -41,3 +41,15 @@ func RandIndex(weights []float64) int {
 	rnd := rand.Float64() * cumWeights[len(weights)-1]
 	return sort.SearchFloat64s(cumWeights, rnd)
 }
+
+// func Map(n, a1, b1, a2, b2 float64) float64 {
+// 	range1 := b1 - a1
+// 	if range1 == 0.0 {
+// 		return a2
+// 	}
+// 	range2 := b2 - a1
+// 	offset := n - a1
+// 	percent := offset / range1
+// 	newOffset := percent * range2
+// 	return a2 + newOffset
+// }

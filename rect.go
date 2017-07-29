@@ -15,12 +15,12 @@ func (r Rect) String() string {
 	return fmt.Sprintf("Rect(%g, %g, w%g, h%g)", r.X, r.Y, r.W, r.H)
 }
 
-// RectCorners creates a rect given top lect and bottom right coners.
+// RectCorners creates a rect given top left and bottom right corners.
 func RectCorners(x1, y1, x2, y2 float64) Rect {
 	return Rect{X: x1, Y: y1, W: x2 - x1, H: y2 - y1}
 }
 
-// RectCornersVec creates a rect given top lect and bottom right coners.
+// RectCornersVec creates a rect given top left and bottom right corners.
 func RectCornersVec(topLeft, bottomRight Vec) Rect {
 	return Rect{X: topLeft.X, Y: topLeft.Y, W: bottomRight.X - topLeft.X, H: bottomRight.Y - topLeft.Y}
 }
@@ -44,7 +44,7 @@ func (r Rect) Top() (top float64) {
 	return r.Y
 }
 
-// SetTop sets the top boundary.
+// SetTop sets the top boundary by moving the Rect.
 func (r *Rect) SetTop(top float64) {
 	r.Y = top
 }
@@ -54,7 +54,7 @@ func (r Rect) Bottom() float64 {
 	return r.Y + r.H
 }
 
-// SetBottom sets the bottom boundary.
+// SetBottom sets the bottom boundary by moving the Rect.
 func (r *Rect) SetBottom(bottom float64) {
 	r.Y = bottom - r.H
 }
@@ -64,7 +64,7 @@ func (r Rect) Left() float64 {
 	return r.X
 }
 
-// SetLeft sets the left boundary.
+// SetLeft sets the left boundary by moving the Rect.
 func (r *Rect) SetLeft(left float64) {
 	r.X = left
 }
@@ -74,7 +74,7 @@ func (r Rect) Right() float64 {
 	return r.X + r.W
 }
 
-// SetRight sets the right boundary.
+// SetRight sets the right boundary by moving the Rect.
 func (r *Rect) SetRight(right float64) {
 	r.X = right - r.W
 }
@@ -84,7 +84,7 @@ func (r Rect) Size() (w, h float64) {
 	return r.W, r.H
 }
 
-// SetSize sets the width and height.
+// SetSize sets the width and height. Preserves top left corner.
 func (r *Rect) SetSize(w, h float64) {
 	r.W = w
 	r.H = h
@@ -95,7 +95,7 @@ func (r Rect) TopLeft() (x, y float64) {
 	return r.Left(), r.Top()
 }
 
-// SetTopLeft sets the coordinates of the top left corner.
+// SetTopLeft sets the coordinates of the top left corner by moving the Rect.
 func (r *Rect) SetTopLeft(x, y float64) {
 	r.SetLeft(x)
 	r.SetTop(y)
@@ -106,7 +106,7 @@ func (r Rect) BottomLeft() (x, y float64) {
 	return r.Left(), r.Bottom()
 }
 
-// SetBottomLeft set the coordinates of the bottom left corner.
+// SetBottomLeft set the coordinates of the bottom left corner by moving the Rect.
 func (r *Rect) SetBottomLeft(x, y float64) {
 	r.SetLeft(x)
 	r.SetBottom(y)
@@ -117,7 +117,7 @@ func (r Rect) TopRight() (x, y float64) {
 	return r.Right(), r.Top()
 }
 
-// SetTopRight sets the coordinates of the top right corner.
+// SetTopRight sets the coordinates of the top right corner by moving the Rect.
 func (r *Rect) SetTopRight(x, y float64) {
 	r.SetRight(x)
 	r.SetTop(y)
@@ -128,7 +128,7 @@ func (r Rect) BottomRight() (x, y float64) {
 	return r.Right(), r.Bottom()
 }
 
-// SetBottomRight sets the coordinates of the bottom right corner.
+// SetBottomRight sets the coordinates of the bottom right corner by moving the Rect.
 func (r *Rect) SetBottomRight(x, y float64) {
 	r.SetRight(x)
 	r.SetBottom(y)
@@ -139,7 +139,7 @@ func (r Rect) TopMid() (x, y float64) {
 	return r.MidX(), r.Top()
 }
 
-// SetTopMid sets the coordinates at the top of the rectangle above the center.
+// SetTopMid sets the coordinates at the top of the rectangle above the center by moving the Rect.
 func (r *Rect) SetTopMid(x, y float64) {
 	r.SetMidX(x)
 	r.SetTop(y)
@@ -150,7 +150,7 @@ func (r Rect) BottomMid() (x, y float64) {
 	return r.MidX(), r.Bottom()
 }
 
-// SetBottomMid sets the coordinates at the bottom of the rectangle below the center.
+// SetBottomMid sets the coordinates at the bottom of the rectangle below the center  by moving the Rect.
 func (r *Rect) SetBottomMid(x, y float64) {
 	r.SetMidX(x)
 	r.SetBottom(y)
@@ -161,7 +161,8 @@ func (r Rect) LeftMid() (x, y float64) {
 	return r.Left(), r.MidY()
 }
 
-// SetLeftMid sets the coordinates at the left of the rectangle in line with the center.
+// SetLeftMid sets the coordinates at the left of the rectangle in line with the center
+// by moving the Rect.
 func (r *Rect) SetLeftMid(x, y float64) {
 	r.SetLeft(x)
 	r.SetMidY(y)
@@ -172,7 +173,8 @@ func (r Rect) RightMid() (x, y float64) {
 	return r.Right(), r.MidY()
 }
 
-// SetRightMid sets the coordinates at the right of the rectangle in line with the center.
+// SetRightMid sets the coordinates at the right of the rectangle in line with the center
+// by moving the Rect.
 func (r *Rect) SetRightMid(x, y float64) {
 	r.SetRight(x)
 	r.SetMidY(y)
@@ -183,7 +185,7 @@ func (r Rect) Mid() (x, y float64) {
 	return r.MidX(), r.MidY()
 }
 
-// SetMid sets the center coordinates.
+// SetMid sets the center coordinates by moving the Rect.
 func (r *Rect) SetMid(x, y float64) {
 	r.SetMidX(x)
 	r.SetMidY(y)
@@ -194,7 +196,7 @@ func (r Rect) MidX() float64 {
 	return r.X + r.W/2
 }
 
-// SetCenterX sets the center x coordinates.
+// SetCenterX sets the center x coordinates by moving the Rect.
 func (r *Rect) SetMidX(x float64) {
 	r.X = x - r.W/2
 }
@@ -204,7 +206,7 @@ func (r Rect) MidY() float64 {
 	return r.Y + r.H/2
 }
 
-// SetCenterY set the center y coordinates.
+// SetCenterY set the center y coordinates by moving the Rect.
 func (r *Rect) SetMidY(y float64) {
 	r.Y = y - r.H/2
 }
@@ -233,7 +235,7 @@ func (r *Rect) Inflate(dw, dh float64) {
 	r.H += dh
 }
 
-// Inflated returns a new Rect with the same center whose size is chaged by the given amount.
+// Inflated returns a new Rect with the same center whose size is changed by the given amount.
 func (r Rect) Inflated(dw, dh float64) Rect {
 	return Rect{X: r.X - dw/2, Y: r.Y - dh/2, W: r.W + dw, H: r.H + dh}
 }
@@ -293,7 +295,7 @@ func (r *Rect) Union(other Rect) {
 	r.Y = newY
 }
 
-// Unioned retruns a new Rect that contain both Rects.
+// Unioned returns a new Rect that contain both Rects.
 func (r Rect) Unioned(other Rect) Rect {
 	newX := math.Min(r.X, other.X)
 	newY := math.Min(r.Y, other.Y)
@@ -333,7 +335,7 @@ func (r Rect) Fitted(bounds Rect) Rect {
 	return Rect{X: bounds.X, Y: Clamp(r.Y, bounds.Y, bounds.Bottom()-newH), W: bounds.W, H: newH}
 }
 
-// Normalize fips the Rect in place if its size is negative.
+// Normalize flips the Rect in place if its size is negative.
 func (r *Rect) Normalize() {
 	if r.W < 0 {
 		r.X += r.W
@@ -345,7 +347,7 @@ func (r *Rect) Normalize() {
 	}
 }
 
-// Normalized returns a fipped but equivalent Rect if its size is negative.
+// Normalized returns a flipped but equivalent Rect if its size is negative.
 func (r Rect) Normalized() Rect {
 	r.Normalize()
 	return r
