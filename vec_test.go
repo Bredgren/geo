@@ -29,6 +29,12 @@ func TestVecXY(t *testing.T) {
 	if x != 1 || y != 2 {
 		t.Errorf("got %f, %f, want %f, %f", x, y, got.X, got.Y)
 	}
+
+	got = Vec{}
+	got.Set(1, 2)
+	if !got.Equals(want, e) {
+		t.Errorf("got %s, want %s", got, want)
+	}
 }
 
 func TestVecPoint(t *testing.T) {

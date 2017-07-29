@@ -42,6 +42,11 @@ func (v Vec) XY() (x, y float64) {
 	return v.X, v.Y
 }
 
+// Set modifies the Vec's x and Y to those given.
+func (v *Vec) Set(x, y float64) {
+	v.X, v.Y = x, y
+}
+
 // Equals returns true if the corresponding components of the vectors are within the error e.
 func (v Vec) Equals(v2 Vec, e float64) bool {
 	return math.Abs(v.X-v2.X) < e && math.Abs(v.Y-v2.Y) < e
