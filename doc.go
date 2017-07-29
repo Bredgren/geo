@@ -15,4 +15,12 @@
 //
 // Rect
 //  Defines a rectangular area. Like Vec it also has many functions for values and references.
+//
+// Miscellaneous
+//  ...
+//
+// TODO:
+//  - circle
+//  - camera
+//  - noise
 package geo
