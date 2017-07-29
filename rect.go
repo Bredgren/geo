@@ -20,14 +20,29 @@ func RectXYWH(x, y, w, h float64) Rect {
 	return Rect{X: x, Y: y, W: w, H: h}
 }
 
-// RectCorners creates a rect given top left and bottom right corners.
+// RectCorners creates a Rect given top left and bottom right corners.
 func RectCorners(x1, y1, x2, y2 float64) Rect {
 	return Rect{X: x1, Y: y1, W: x2 - x1, H: y2 - y1}
 }
 
-// RectCornersVec creates a rect given top left and bottom right corners.
+// RectCornersVec creates a Rect given top left and bottom right corners.
 func RectCornersVec(topLeft, bottomRight Vec) Rect {
 	return Rect{X: topLeft.X, Y: topLeft.Y, W: bottomRight.X - topLeft.X, H: bottomRight.Y - topLeft.Y}
+}
+
+// RectWH creates a Rect with the given size with the top left corner at (0, 0)
+func RectWH(w, h float64) Rect {
+	return Rect{W: w, H: h}
+}
+
+// RectVWH is like RectXYWH but takes x and y as a Vec.
+func RectVWH(topLeft Vec, w, h float64) Rect {
+	return Rect{X: topLeft.X, Y: topLeft.Y, W: w, H: h}
+}
+
+// RectVSize is like RectVWH but also takes w and h as a Vec.
+func RectVSize(topLeft, size Vec) Rect {
+	return Rect{X: topLeft.X, Y: topLeft.Y, W: size.X, H: size.Y}
 }
 
 // Rectangle creates a Rect from an image.Rectangle.

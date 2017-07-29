@@ -26,6 +26,21 @@ func TestMakeRect(t *testing.T) {
 		t.Errorf("got %s r: %g, b: %g, want %s", got, got.Right(), got.Bottom(), ir)
 	}
 
+	got = RectWH(2, 3)
+	got.SetTopLeft(1, 2)
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+
+	got = RectVWH(VecXY(1, 2), 2, 3)
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+
+	got = RectVSize(VecXY(1, 2), VecXY(2, 3))
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
 }
 
 func TestRectString(t *testing.T) {
