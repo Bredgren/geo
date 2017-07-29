@@ -4,16 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"testing"
-	"time"
 )
-
-const (
-	e = 1e-10
-)
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 func TestVecXY(t *testing.T) {
 	f := func() (x, y float64) {

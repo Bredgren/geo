@@ -2,34 +2,6 @@ package geo
 
 import "testing"
 
-func check(t *testing.T, name string, fn func() float64, want float64) {
-	got := fn()
-	if got != want {
-		t.Errorf("%s: got %f, want %f", name, got, want)
-	}
-}
-
-func check2(t *testing.T, name string, fn func() (float64, float64), want1, want2 float64) {
-	got1, got2 := fn()
-	if got1 != want1 || got2 != want2 {
-		t.Errorf("%s: got %f, %f, want %f, %f", name, got1, got2, want1, want2)
-	}
-}
-
-func check3(t *testing.T, name string, fn func() (float64, float64, float64), want1, want2, want3 float64) {
-	got1, got2, got3 := fn()
-	if got1 != want1 || got2 != want2 || got3 != want3 {
-		t.Errorf("%s: got %f, %f, %f, want %f, %f, %f", name, got1, got2, got3, want1, want2, want3)
-	}
-}
-
-func checkVec(t *testing.T, name string, fn func() Vec, want Vec) {
-	got := fn()
-	if got != want {
-		t.Errorf("%s: got %s, want %s", name, got, want)
-	}
-}
-
 func TestMakeRect(t *testing.T) {
 	want := Rect{X: 1, Y: 2, W: 2, H: 3}
 	got := RectXYWH(1, 2, 2, 3)
@@ -452,21 +424,9 @@ func TestRectCollideListAll(t *testing.T) {
 		{Rect{X: 1, Y: 1, W: 5, H: 5}, []Rect{}, []int{}},
 	}
 
-	listEqual := func(a, b []int) bool {
-		if len(a) != len(b) {
-			return false
-		}
-		for i, n := range a {
-			if n != b[i] {
-				return false
-			}
-		}
-		return true
-	}
-
 	for i, c := range cases {
 		got := c.r.CollideRectListAll(c.rs)
-		if !listEqual(got, c.want) {
+		if !intListEqual(got, c.want) {
 			t.Errorf("case %d: got %v, want %v", i, got, c.want)
 		}
 	}
