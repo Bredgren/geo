@@ -42,3 +42,25 @@ func TestMap(t *testing.T) {
 		}
 	}
 }
+
+func TestMod(t *testing.T) {
+	cases := []struct {
+		a, b, want float64
+	}{
+		{-4, 3, 2},
+		{-3, 3, 0},
+		{-2, 3, 1},
+		{-1, 3, 2},
+		{0, 3, 0},
+		{1, 3, 1},
+		{2, 3, 2},
+		{3, 3, 0},
+		{4, 3, 1},
+	}
+	for i, c := range cases {
+		got := Mod(c.a, c.b)
+		if got != c.want {
+			t.Errorf("case %d: got: %f, want: %f", i, got, c.want)
+		}
+	}
+}

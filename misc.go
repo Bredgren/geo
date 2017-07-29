@@ -53,3 +53,12 @@ func Map(n, a1, b1, a2, b2 float64) float64 {
 	newOffset := percent * range2
 	return a2 + newOffset
 }
+
+// Mod is the modulus operator. Unlike the Mod in the math package this wraps negative
+// numbers around to the positive axis.
+// e.g. if b is 3
+//  a       -5 -4 -3 -2 -1 0 1 2 3 4 5
+//  return   1  2  0  1  2 0 1 2 3 1 2
+func Mod(a, b float64) float64 {
+	return math.Mod(math.Mod(a, b)+b, b)
+}
