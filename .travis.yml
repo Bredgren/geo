@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.8
+
+notifications:
+  email:
+    recipients:
+      - brandon.edgren@gmail.com
