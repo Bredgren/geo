@@ -216,17 +216,17 @@ func (r Rect) MidX() float64 {
 	return r.X + r.W/2
 }
 
-// SetCenterX sets the center x coordinates by moving the Rect.
+// SetMidX sets the center x coordinates by moving the Rect.
 func (r *Rect) SetMidX(x float64) {
 	r.X = x - r.W/2
 }
 
-// CenterY returns the center y coordinates.
+// MidY returns the center y coordinates.
 func (r Rect) MidY() float64 {
 	return r.Y + r.H/2
 }
 
-// SetCenterY set the center y coordinates by moving the Rect.
+// SetMidY set the center y coordinates by moving the Rect.
 func (r *Rect) SetMidY(y float64) {
 	r.Y = y - r.H/2
 }

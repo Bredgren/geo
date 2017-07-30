@@ -208,7 +208,7 @@ func (c *Circle) SetBottomLeft(x, y float64) {
 	c.SetBottom(y)
 }
 
-// SetBottomMid returns the position of the bottom of the Circle, bellow its center.
+// BottomMid returns the position of the bottom of the Circle, bellow its center.
 func (c Circle) BottomMid() (x, y float64) {
 	return c.X, c.Bottom()
 }
@@ -276,6 +276,7 @@ func (c Circle) CollideCircle(other Circle) bool {
 	return c.Pos().Dist2(other.Pos()) < (c.R+other.R)*(c.R+other.R)
 }
 
+// CollidePoint returns true if the given point is inside the Circle.
 func (c Circle) CollidePoint(x, y float64) bool {
 	return c.Pos().Dist2(VecXY(x, y)) < c.R*c.R
 }
@@ -369,11 +370,14 @@ func (c Circle) InscribedRect() Rect {
 	return r
 }
 
+// CircleCircumscribe returns the smallest circle that surrounds the Rect.
 func CircleCircumscribe(r Rect) Circle {
 	diameter := VecXY(r.TopLeft()).Minus(VecXY(r.BottomRight())).Len()
 	return CircleXYR(r.MidX(), r.MidY(), diameter/2)
 }
 
+// CircleInscribe returns the largest Circle that fits insided the Rect, and shares its
+// center with the Rect.
 func CircleInscribe(r Rect) Circle {
 	r.Normalized()
 	radius := math.Min(r.W, r.H) / 2

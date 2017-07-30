@@ -16,6 +16,7 @@ type Vec struct {
 	X, Y float64
 }
 
+// Vec0 is the zero vector.
 var Vec0 = Vec{}
 
 // VecXY constructs a Vec from its arguments. Useful for making a Vec from a function that
