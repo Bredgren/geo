@@ -64,3 +64,35 @@ func TestMod(t *testing.T) {
 		}
 	}
 }
+
+func TestRandIndex(t *testing.T) {
+	cases := [][]float64{
+		{0.0},
+		{0.0, 0.0},
+		{0.0, 0.0, 1.0},
+		{1.0},
+		{1.0, 2.0},
+		{1.0, 4.0},
+		{1.0, 4.0, 2.0},
+		{1.5, 2.5},
+		{-1.0, -1.0},
+	}
+
+	for _, c := range cases {
+		checkSelectIndexFreq(c)
+	}
+}
+
+func checkSelectIndexFreq(list []float64) {
+	counts := make(map[int]int)
+	count := 1000
+	for i := 0; i < count; i++ {
+		index := RandIndex(list)
+		counts[index]++
+	}
+
+	// fmt.Println("Check", list)
+	// for v, c := range counts {
+	// 	fmt.Printf(" %d: %f\n", v, float64(c)/float64(count))
+	// }
+}
