@@ -126,18 +126,18 @@ func EaseInOutExpo(t float64) float64 {
 }
 
 func EaseInElastic(t float64) float64 {
-	return math.Sin(13*2*math.Pi*t) * math.Pow(2, 10*(t-1))
+	return math.Sin(13*math.Pi/2*t) * math.Pow(2, 10*(t-1))
 }
 
 func EaseOutElastic(t float64) float64 {
-	return math.Sin(-13*2*math.Pi*(t+1)) * math.Pow(2, -10*t)
+	return math.Sin(-13*math.Pi/2*(t+1))*math.Pow(2, -10*t) + 1
 }
 
 func EaseInOutElastic(t float64) float64 {
 	if t < 0.5 {
-		return 0.5 * math.Sin(13*2*math.Pi*(2*t)) * math.Pow(2, 10*((2*t)-1))
+		return 0.5 * math.Sin(13*math.Pi/2*(2*t)) * math.Pow(2, 10*((2*t)-1))
 	}
-	return 0.5 * (math.Sin(-13*2*math.Pi*((2*t-1)+1))*math.Pow(2, -10*(2*t-1)) + 2)
+	return 0.5 * (math.Sin(-13*math.Pi/2*((2*t-1)+1))*math.Pow(2, -10*(2*t-1)) + 2)
 }
 
 func EaseInBack(t float64) float64 {
