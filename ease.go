@@ -122,7 +122,7 @@ func EaseInOutExpo(t float64) float64 {
 	if t < 0.5 {
 		return 0.5 * math.Pow(2, (20*t)-10)
 	}
-	return 0.5*math.Pow(2, (-20*t)+10) + 1
+	return -0.5*math.Pow(2, (-20*t)+10) + 1
 }
 
 func EaseInElastic(t float64) float64 {
