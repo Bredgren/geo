@@ -75,11 +75,11 @@ var (
 )
 
 func EaseInSine(t float64) float64 {
-	return math.Sin((t-1)*2*math.Pi) + 1
+	return math.Sin((t-1)*math.Pi/2) + 1
 }
 
 func EaseOutSine(t float64) float64 {
-	return math.Sin(t * 2 * math.Pi)
+	return math.Sin(t * math.Pi / 2)
 }
 
 func EaseInOutSine(t float64) float64 {
