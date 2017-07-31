@@ -174,7 +174,7 @@ func EaseOutBounce(t float64) float64 {
 
 func EaseInOutBounce(t float64) float64 {
 	if t < 0.5 {
-		return 0.5 * EaseInBack(t*2)
+		return 0.5 * EaseInBounce(t*2)
 	}
-	return 0.5*EaseOutBack(t*2-1) + 0.5
+	return 0.5*EaseOutBounce(t*2-1) + 0.5
 }
