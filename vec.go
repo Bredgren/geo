@@ -25,9 +25,21 @@ func VecXY(x, y float64) Vec {
 	return Vec{X: x, Y: y}
 }
 
+// VecXYi creates a Vec from two ints.
+func VecXYi(x, y int) Vec {
+	return Vec{X: float64(x), Y: float64(y)}
+}
+
 // VecPoint creates a Vec from an image.Point.
 func VecPoint(p image.Point) Vec {
 	return Vec{X: float64(p.X), Y: float64(p.Y)}
+}
+
+// VecLA creates a Vec from a length and an angle.
+func VecLA(length, rad float64) Vec {
+	v := Vec{X: length}
+	v.Rotate(rad)
+	return v
 }
 
 // Point converts a Vec into image.Point, discarding any fractional components to X and Y.

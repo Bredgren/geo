@@ -26,6 +26,16 @@ func TestVecXY(t *testing.T) {
 	if !got.Equals(want, e) {
 		t.Errorf("got %s, want %s", got, want)
 	}
+
+	got = VecXYi(1, 2)
+	if !got.Equals(want, e) {
+		t.Errorf("got %s, want %s", got, want)
+	}
+
+	got = VecLA(want.Len(), want.Angle())
+	if !got.Equals(want, e) {
+		t.Errorf("got %s, want %s", got, want)
+	}
 }
 
 func TestVecPoint(t *testing.T) {
