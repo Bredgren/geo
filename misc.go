@@ -62,3 +62,25 @@ func Map(n, a1, b1, a2, b2 float64) float64 {
 func Mod(a, b float64) float64 {
 	return math.Mod(math.Mod(a, b)+b, b)
 }
+
+// Shake takes a current time t, from 0 to duration, the maximum amplitude and the frequency
+// of the displacement, and a falloff function to control how the shaking dies off. The
+// return Vec is the offset to use at time t. The seed value is used to vary the shake.
+// But the same seed should be used for an entire shake cycle. It's purpose is to get different
+// shake patterns when the other parameters are the same.
+func Shake(seed, t, duration, amplitude, frequency float64, falloff EaseFn) Vec {
+	t = Clamp(t, 0, duration) / duration
+	amplitude *= 1 - falloff(t)
+	return ShakeConst(seed, t, amplitude, frequency)
+}
+
+// ShakeConst produces a constant shake with no falloff or duration. It takes a maximum
+// amplitude and the frequency of the displacement. The return Vec is the offset to use
+// at time t. The seed value is used to vary the shake. But the same seed should be used for
+// an entire shake cycle. It's purpose is to get different shake patterns when the other
+// parameters are the same.
+func ShakeConst(seed, t, amplitude, frequency float64) Vec {
+	len := Map(Perlin(t*frequency, seed, seed), 0, 1, -1, 1) * amplitude
+	angle := Map(Perlin(seed, t*frequency, seed), 0, 1, 0, 2*math.Pi)
+	return VecLA(len, angle)
+}
