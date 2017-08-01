@@ -84,3 +84,15 @@ func ShakeConst(seed, t, amplitude, frequency float64) Vec {
 	angle := Map(Perlin(seed, t*frequency, seed), 0, 1, 0, 2*math.Pi)
 	return VecLA(len, angle)
 }
+
+// Shake1 is like Shake but in only 1 dimension.
+func Shake1(seed, t, duration, amplitude, frequency float64, falloff EaseFn) float64 {
+	t = Clamp(t, 0, duration) / duration
+	amplitude *= 1 - falloff(t)
+	return ShakeConst1(seed, t, amplitude, frequency)
+}
+
+// ShakeConst1 is like ShakeConst but in only 1 dimension.
+func ShakeConst1(seed, t, amplitude, frequency float64) float64 {
+	return Map(Perlin(t*frequency, seed, seed), 0, 1, -1, 1) * amplitude
+}
