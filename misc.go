@@ -63,6 +63,42 @@ func Mod(a, b float64) float64 {
 	return math.Mod(math.Mod(a, b)+b, b)
 }
 
+// Shaker wraps the arguments to the shake functions for convenience and reusability.
+type Shaker struct {
+	// Seed can be used to change up the shaking behaviour, because all of the shake functions
+	// are deterministic and often one wants it look different while keeping the other parameters
+	// the same.
+	Seed float64
+	// Amplitude is the maximum length of the offset.
+	Amplitude float64
+	// Frequency controls how quickly the shaking happens.
+	Frequency float64
+	// Falloff modifies the amplitude over time. This makes it easy to fade out the shaking.
+	Falloff EaseFn
+}
+
+// Shake is the same as the Shake function but uses the Shaker fieds.
+func (s *Shaker) Shake(t, duration float64) Vec {
+	return Shake(s.Seed, t, duration, s.Amplitude, s.Frequency, s.Falloff)
+}
+
+// ShakeConst is the same as the ShakeConst function but uses the Shaker fieds.
+// This function doesn't make use of the Falloff field.
+func (s *Shaker) ShakeConst(t float64) Vec {
+	return ShakeConst(s.Seed, t, s.Amplitude, s.Frequency)
+}
+
+// Shake1 is the same as the Shake1 function but uses the Shaker fieds.
+func (s *Shaker) Shake1(t, duration float64) float64 {
+	return Shake1(s.Seed, t, duration, s.Amplitude, s.Frequency, s.Falloff)
+}
+
+// ShakeConst1 is the same as the ShakeConst1 function but uses the Shaker fieds.
+// This function doesn't make use of the Falloff field.
+func (s *Shaker) ShakeConst1(t float64) float64 {
+	return ShakeConst1(s.Seed, t, s.Amplitude, s.Frequency)
+}
+
 // Shake takes a current time t, from 0 to duration, the maximum amplitude and the frequency
 // of the displacement, and a falloff function to control how the shaking dies off. The
 // return Vec is the offset to use at time t. The seed value is used to vary the shake.
