@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"sort"
+	"time"
 )
 
 // Clamp returns n if it is within [min(a, b), max(a, b)] otherwise it returns the closer
@@ -72,9 +73,9 @@ type Shaker struct {
 	Seed float64
 	// StartTime is the time that the shaking starts. Reactivating a Shaker that has ended
 	// should usually be as simple as updating the StartTime.
-	StartTime float64
+	StartTime time.Time
 	// Duration is how long the shaking takes place.
-	Duration float64
+	Duration time.Duration
 	// Amplitude is the maximum length of the offset.
 	Amplitude float64
 	// Frequency controls how quickly the shaking happens.
@@ -88,37 +89,39 @@ type Shaker struct {
 // s.StartTime and s.StartTime + s.Duration. This function makes use of StartTime, Duration,
 // and Falloff to change the amplitude of the offset over time. The length of the Vec returned
 // is never greater than the amplitude.
-func (s *Shaker) Shake(t float64) Vec {
+func (s *Shaker) Shake(t time.Time) Vec {
 	return s.shakeConst(t, s.amp(t))
 }
 
 // ShakeConst takes a current time t and returns an offset. The max amplitude of the offset
 // is not varied over time so StartTime, Duration, and Falloff are not used.
-func (s *Shaker) ShakeConst(t float64) Vec {
+func (s *Shaker) ShakeConst(t time.Time) Vec {
 	return s.shakeConst(t, s.Amplitude)
 }
 
 // Shake1 is the same as Shake function but works in 1 dimension.
-func (s *Shaker) Shake1(t float64) float64 {
+func (s *Shaker) Shake1(t time.Time) float64 {
 	return s.shakeConst1(t, s.amp(t))
 }
 
 // ShakeConst1 is the same as the ShakeConst but works in 1 dimension.
-func (s *Shaker) ShakeConst1(t float64) float64 {
+func (s *Shaker) ShakeConst1(t time.Time) float64 {
 	return s.shakeConst1(t, s.Amplitude)
 }
 
-func (s *Shaker) amp(t float64) float64 {
-	dt := Clamp(t-s.StartTime, 0, s.Duration) / s.Duration
+func (s *Shaker) amp(t time.Time) float64 {
+	dt := Clamp(t.Sub(s.StartTime).Seconds(), 0, s.Duration.Seconds()) / s.Duration.Seconds()
 	return s.Amplitude * (1 - s.Falloff(dt))
 }
 
-func (s *Shaker) shakeConst(t, amplitude float64) Vec {
-	len := Map(Perlin(t*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
-	angle := Map(Perlin(s.Seed, t*s.Frequency, s.Seed), 0, 1, -math.Pi, math.Pi)
+func (s *Shaker) shakeConst(t time.Time, amplitude float64) Vec {
+	dt := time.Duration(t.UnixNano()).Seconds()
+	len := Map(Perlin(dt*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
+	angle := Map(Perlin(s.Seed, dt*s.Frequency, s.Seed), 0, 1, -math.Pi, math.Pi)
 	return VecLA(len, angle)
 }
 
-func (s *Shaker) shakeConst1(t, amplitude float64) float64 {
-	return Map(Perlin(t*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
+func (s *Shaker) shakeConst1(t time.Time, amplitude float64) float64 {
+	dt := time.Duration(t.UnixNano()).Seconds()
+	return Map(Perlin(dt*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
 }
