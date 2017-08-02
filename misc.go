@@ -67,68 +67,58 @@ func Mod(a, b float64) float64 {
 type Shaker struct {
 	// Seed can be used to change up the shaking behaviour, because all of the shake functions
 	// are deterministic and often one wants it look different while keeping the other parameters
-	// the same.
+	// the same. Though if different values for t are always being used then changing the Seed
+	// may not be necessary.
 	Seed float64
+	// StartTime is the time that the shaking starts. Reactivating a Shaker that has ended
+	// should usually be as simple as updating the StartTime.
+	StartTime float64
+	// Duration is how long the shaking takes place.
+	Duration float64
 	// Amplitude is the maximum length of the offset.
 	Amplitude float64
 	// Frequency controls how quickly the shaking happens.
 	Frequency float64
-	// Falloff modifies the amplitude over time. This makes it easy to fade out the shaking.
+	// Falloff modifies the amplitude over time, using StartTime and Duration. This makes
+	// it easy to fade out the shaking.
 	Falloff EaseFn
 }
 
-// Shake is the same as the Shake function but uses the Shaker fieds.
-func (s *Shaker) Shake(t, duration float64) Vec {
-	return Shake(s.Seed, t, duration, s.Amplitude, s.Frequency, s.Falloff)
+// Shake takes a current time t and returns an offset. The time t will be clamped between
+// s.StartTime and s.StartTime + s.Duration. This function makes use of StartTime, Duration,
+// and Falloff to change the amplitude of the offset over time. The length of the Vec returned
+// is never greater than the amplitude.
+func (s *Shaker) Shake(t float64) Vec {
+	return s.shakeConst(t, s.amp(t))
 }
 
-// ShakeConst is the same as the ShakeConst function but uses the Shaker fieds.
-// This function doesn't make use of the Falloff field.
+// ShakeConst takes a current time t and returns an offset. The max amplitude of the offset
+// is not varied over time so StartTime, Duration, and Falloff are not used.
 func (s *Shaker) ShakeConst(t float64) Vec {
-	return ShakeConst(s.Seed, t, s.Amplitude, s.Frequency)
+	return s.shakeConst(t, s.Amplitude)
 }
 
-// Shake1 is the same as the Shake1 function but uses the Shaker fieds.
-func (s *Shaker) Shake1(t, duration float64) float64 {
-	return Shake1(s.Seed, t, duration, s.Amplitude, s.Frequency, s.Falloff)
+// Shake1 is the same as Shake function but works in 1 dimension.
+func (s *Shaker) Shake1(t float64) float64 {
+	return s.shakeConst1(t, s.amp(t))
 }
 
-// ShakeConst1 is the same as the ShakeConst1 function but uses the Shaker fieds.
-// This function doesn't make use of the Falloff field.
+// ShakeConst1 is the same as the ShakeConst but works in 1 dimension.
 func (s *Shaker) ShakeConst1(t float64) float64 {
-	return ShakeConst1(s.Seed, t, s.Amplitude, s.Frequency)
+	return s.shakeConst1(t, s.Amplitude)
 }
 
-// Shake takes a current time t, from 0 to duration, the maximum amplitude and the frequency
-// of the displacement, and a falloff function to control how the shaking dies off. The
-// return Vec is the offset to use at time t. The seed value is used to vary the shake.
-// But the same seed should be used for an entire shake cycle. It's purpose is to get different
-// shake patterns when the other parameters are the same.
-func Shake(seed, t, duration, amplitude, frequency float64, falloff EaseFn) Vec {
-	t = Clamp(t, 0, duration) / duration
-	amplitude *= 1 - falloff(t)
-	return ShakeConst(seed, t, amplitude, frequency)
+func (s *Shaker) amp(t float64) float64 {
+	dt := Clamp(t-s.StartTime, 0, s.Duration) / s.Duration
+	return s.Amplitude * (1 - s.Falloff(dt))
 }
 
-// ShakeConst produces a constant shake with no falloff or duration. It takes a maximum
-// amplitude and the frequency of the displacement. The return Vec is the offset to use
-// at time t. The seed value is used to vary the shake. But the same seed should be used for
-// an entire shake cycle. It's purpose is to get different shake patterns when the other
-// parameters are the same.
-func ShakeConst(seed, t, amplitude, frequency float64) Vec {
-	len := Map(Perlin(t*frequency, seed, seed), 0, 1, -1, 1) * amplitude
-	angle := Map(Perlin(seed, t*frequency, seed), 0, 1, 0, 2*math.Pi)
+func (s *Shaker) shakeConst(t, amplitude float64) Vec {
+	len := Map(Perlin(t*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
+	angle := Map(Perlin(s.Seed, t*s.Frequency, s.Seed), 0, 1, -math.Pi, math.Pi)
 	return VecLA(len, angle)
 }
 
-// Shake1 is like Shake but in only 1 dimension.
-func Shake1(seed, t, duration, amplitude, frequency float64, falloff EaseFn) float64 {
-	t = Clamp(t, 0, duration) / duration
-	amplitude *= 1 - falloff(t)
-	return ShakeConst1(seed, t, amplitude, frequency)
-}
-
-// ShakeConst1 is like ShakeConst but in only 1 dimension.
-func ShakeConst1(seed, t, amplitude, frequency float64) float64 {
-	return Map(Perlin(t*frequency, seed, seed), 0, 1, -1, 1) * amplitude
+func (s *Shaker) shakeConst1(t, amplitude float64) float64 {
+	return Map(Perlin(t*s.Frequency, s.Seed, s.Seed), 0, 1, -1, 1) * amplitude
 }
