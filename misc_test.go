@@ -56,6 +56,7 @@ func TestMod(t *testing.T) {
 		{2, 3, 2},
 		{3, 3, 0},
 		{4, 3, 1},
+		{1, 0, 0},
 	}
 	for i, c := range cases {
 		got := Mod(c.a, c.b)
