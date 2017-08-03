@@ -7,5 +7,5 @@
 //  - Functions for generating randon numbers and vectors, including a function for randomly
 //    selecting an item from a list with weighted probabilities
 //  - Perlin noise functions
-//  - Other midcellaneous functions like Clamp, Map, and Mod
+//  - Other miscellaneous functions like Clamp, Map, and Mod
 package geo
