@@ -85,6 +85,11 @@ type Shaker struct {
 	Falloff EaseFn
 }
 
+// EndTime returns the time that the shaking would end, if using the non-Const Shake functions.
+func (s *Shaker) EndTime() time.Time {
+	return s.StartTime.Add(s.Duration)
+}
+
 // Shake takes a current time t and returns an offset. The time t will be clamped between
 // s.StartTime and s.StartTime + s.Duration. This function makes use of StartTime, Duration,
 // and Falloff to change the amplitude of the offset over time. The length of the Vec returned
