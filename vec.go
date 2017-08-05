@@ -265,3 +265,16 @@ func (v Vec) Mapped(r1, r2 Rect) Vec {
 	v.Map(r1, r2)
 	return v
 }
+
+// Clamp modifies the Vec to be closest point within Rect to the original Vec.
+func (v *Vec) Clamp(r Rect) {
+	v.X = Clamp(v.X, r.Left(), r.Right())
+	v.Y = Clamp(v.Y, r.Bottom(), r.Top())
+}
+
+// Clamped returns the closest point within Rect to the Vec.
+func (v Vec) Clamped(r Rect) Vec {
+	v.X = Clamp(v.X, r.Left(), r.Right())
+	v.Y = Clamp(v.Y, r.Bottom(), r.Top())
+	return v
+}

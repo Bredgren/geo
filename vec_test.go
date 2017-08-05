@@ -508,3 +508,31 @@ func TestVecMap(t *testing.T) {
 		}
 	}
 }
+
+func TestVecClamp(t *testing.T) {
+	cases := []struct {
+		v    Vec
+		r    Rect
+		want Vec
+	}{
+		{VecXY(1, 2), RectXYWH(1, 1, 4, 4), VecXY(1, 2)},
+		{VecXY(0, 4), RectXYWH(1, 1, 4, 4), VecXY(1, 4)},
+		{VecXY(2, 5), RectXYWH(1, 1, 4, 4), VecXY(2, 5)},
+		{VecXY(6, 9), RectXYWH(1, 1, 4, 4), VecXY(5, 5)},
+	}
+
+	for i, c := range cases {
+		got := c.v
+		got.Clamp(c.r)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+
+	for i, c := range cases {
+		got := c.v.Clamped(c.r)
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+}
