@@ -433,3 +433,31 @@ func RectUnion(rects []Rect) Rect {
 
 	return Rect{X: newX, Y: newY, W: farRight - newX, H: farBottom - newY}
 }
+
+// CollideCircle returns true if the Rect is colliding with the Circle.
+func (r Rect) CollideCircle(c Circle) bool {
+	return c.CollideRect(r)
+}
+
+// CollideCircleList returns the index of the first Circle the Rect collides with. If there
+// is no collision then ok is false and i is undefined.
+func (r Rect) CollideCircleList(cs []Circle) (i int, ok bool) {
+	for i, c := range cs {
+		if c.CollideRect(r) {
+			return i, true
+		}
+	}
+	return
+}
+
+// CollideCircleListAll returns a list of indices of the Circles that collide with the Rect,
+// or an empty list if none.
+func (r Rect) CollideCircleListAll(cs []Circle) []int {
+	list := make([]int, 0, len(cs))
+	for i, c := range cs {
+		if c.CollideRect(r) {
+			list = append(list, i)
+		}
+	}
+	return list
+}

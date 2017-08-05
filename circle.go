@@ -394,7 +394,7 @@ func (c Circle) PointAt(radians float64) (x, y float64) {
 
 // CollideRect returns true if the Circle is colliding with the Rect.
 func (c Circle) CollideRect(r Rect) bool {
-	// Check if the closest point to the circle in the Rect is within the circle
+	// Check if the closest point to the Circle in the Rect is within the Circle
 	return c.CollidePoint(c.Pos().Clamped(r).XY())
 }
 
