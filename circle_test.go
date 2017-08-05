@@ -353,3 +353,100 @@ func TestPointAt(t *testing.T) {
 		}
 	}
 }
+
+func TestCircleCollideRect(t *testing.T) {
+	cases := []struct {
+		c    Circle
+		r    Rect
+		want bool
+	}{
+		{CircleXYR(-2, 0, 1), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(-1, 0, 1), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(-0.9, 0, 1), RectXYWH(0, 0, 7, 1), true},
+		{CircleXYR(5, 0, 1), RectXYWH(0, 0, 7, 1), true},
+		{CircleXYR(5, -2, 1), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(5, -2, 2), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(5, -2, 2.1), RectXYWH(0, 0, 7, 1), true},
+		{CircleXYR(8, 3, 1), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(8, 3, 2), RectXYWH(0, 0, 7, 1), false},
+		{CircleXYR(8, 3, 3), RectXYWH(0, 0, 7, 1), true},
+	}
+
+	for i, c := range cases {
+		got := c.c.CollideRect(c.r)
+		if got != c.want {
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
+		}
+	}
+}
+
+func TestCircleCollideRectList(t *testing.T) {
+	cases := []struct {
+		c    Circle
+		rs   []Rect
+		want int
+		ok   bool
+	}{
+		{CircleXYR(4, 3, 2),
+			[]Rect{
+				RectXYWH(2, -3, 4, 2),
+				RectXYWH(6, 3, 3, 3),
+				RectXYWH(-1, 3, 4, 3),
+				RectXYWH(-5, -3, 2, 4),
+				RectXYWH(4, 0, 3, 2),
+			},
+			2, true,
+		},
+		{CircleXYR(4, 3, 2),
+			[]Rect{
+				RectXYWH(2, -3, 4, 2),
+				RectXYWH(6, 3, 3, 3),
+				RectXYWH(-5, -3, 2, 4),
+			},
+			0, false,
+		},
+		{CircleXY(1, 1), []Rect{}, 0, false},
+	}
+
+	for i, c := range cases {
+		got, ok := c.c.CollideRectList(c.rs)
+		if c.ok == ok && got != c.want {
+			t.Errorf("case %d: got %d, want %d", i, got, c.want)
+		}
+	}
+}
+
+func TestCircleCollideRectListAll(t *testing.T) {
+	cases := []struct {
+		c    Circle
+		rs   []Rect
+		want []int
+	}{
+		{CircleXYR(4, 3, 2),
+			[]Rect{
+				RectXYWH(2, -3, 4, 2),
+				RectXYWH(6, 3, 3, 3),
+				RectXYWH(-1, 3, 4, 3),
+				RectXYWH(-5, -3, 2, 4),
+				RectXYWH(4, 0, 3, 2),
+			},
+			[]int{2, 4},
+		},
+		{CircleXYR(4, 3, 2),
+			[]Rect{
+				RectXYWH(2, -3, 4, 2),
+				RectXYWH(6, 3, 3, 3),
+				RectXYWH(-5, -3, 2, 4),
+			},
+			[]int{},
+		},
+		{CircleXY(1, 1), []Rect{}, []int{}},
+	}
+
+	for i, c := range cases {
+		got := c.c.CollideRectListAll(c.rs)
+		if !intListEqual(got, c.want) {
+			t.Errorf("case %d: got %v, want %v", i, got, c.want)
+		}
+	}
+}

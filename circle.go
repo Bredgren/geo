@@ -391,3 +391,32 @@ func (c Circle) PointAt(radians float64) (x, y float64) {
 	y = c.Y - math.Sin(radians)*c.R
 	return
 }
+
+// CollideRect returns true if the Circle is colliding with the Rect.
+func (c Circle) CollideRect(r Rect) bool {
+	// Check if the closest point to the circle in the Rect is within the circle
+	return c.CollidePoint(c.Pos().Clamped(r).XY())
+}
+
+// CollideRectList returns the index of the first Rect the Circle collides with. If there
+// is no collision then ok is false and i is undefined.
+func (c Circle) CollideRectList(rs []Rect) (i int, ok bool) {
+	for i, r := range rs {
+		if c.CollideRect(r) {
+			return i, true
+		}
+	}
+	return
+}
+
+// CollideRectListAll returns a list of indices of the Rects that collide with the Circle, or an
+// empty list if none.
+func (c Circle) CollideRectListAll(rs []Rect) []int {
+	list := make([]int, 0, len(rs))
+	for i, r := range rs {
+		if c.CollideRect(r) {
+			list = append(list, i)
+		}
+	}
+	return list
+}
