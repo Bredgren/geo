@@ -8,4 +8,6 @@
 //    selecting an item from a list with weighted probabilities
 //  - Perlin noise functions
 //  - Other miscellaneous functions like Clamp, Map, and Mod
+//
+// This package assumes coordinates where +x is right and +y is down.
 package geo

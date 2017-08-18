@@ -205,7 +205,7 @@ func (v Vec) Limited(len float64) Vec {
 	return v
 }
 
-// Angle returns the radians relative to the positive x-axis (counterclockwise in screen
+// Angle returns the radians relative to the positive +x-axis (counterclockwise in screen
 // coordinates). The returned value is in the range [-π, π).
 func (v Vec) Angle() float64 {
 	return -math.Atan2(v.Y, v.X)
