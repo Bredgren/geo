@@ -8,8 +8,8 @@ This package contains a collection of 2-D types and other mathematical functions
 geared towards games in Go. See the [geoexamples](https://github.com/Bredgren/geoexample) package for a few examples.
 
 ## Features
- * Types for 2-D vector, rectangle, and circle
+ * Types for 2-D vector, rectangle, circle, and ray
  * A collection of easing functions
- * Functions for generating randon numbers and vectors
+ * Functions for generating random numbers and vectors
  * Perlin noise and shaking functions
  * Several miscellaneous functions like Clamp, Map, and Mod

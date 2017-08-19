@@ -4,7 +4,7 @@
 // Includes
 //  - Types for 2-D vector, rectangle, circle, and ray
 //  - A collection of easing functions
-//  - Functions for generating randon numbers and vectors, including a function for randomly
+//  - Functions for generating random numbers and vectors, including a function for randomly
 //    selecting an item from a list with weighted probabilities
 //  - Perlin noise functions
 //  - Other miscellaneous functions like Clamp, Map, and Mod
