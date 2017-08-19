@@ -1,6 +1,7 @@
 package geo
 
 import (
+	"math"
 	"math/rand"
 	"testing"
 	"time"
@@ -52,4 +53,11 @@ func intListEqual(a, b []int) bool {
 		}
 	}
 	return true
+}
+
+func fEqual(a, b float64) bool {
+	return (math.IsInf(a, 1) && math.IsInf(b, 1)) ||
+		(math.IsInf(a, -1) && math.IsInf(b, -1)) ||
+		(math.IsNaN(a) && math.IsNaN(b)) ||
+		math.Abs(a-b) < e
 }
