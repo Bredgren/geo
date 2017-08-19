@@ -172,6 +172,11 @@ func (v Vec) Dot(v2 Vec) float64 {
 	return v.X*v2.X + v.Y*v2.Y
 }
 
+// Cross returns the magnitude of the cross product of the two vectors.
+func (v Vec) Cross(v2 Vec) float64 {
+	return v.X*v2.Y - v.Y*v2.X
+}
+
 // Project modifies v to be the vector that is the projection of v onto v2.
 func (v *Vec) Project(v2 Vec) {
 	v2.Normalize()

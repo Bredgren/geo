@@ -301,6 +301,24 @@ func TestVecDot(t *testing.T) {
 	}
 }
 
+func TestVecCross(t *testing.T) {
+	cases := []struct {
+		v1, v2 Vec
+		want   float64
+	}{
+		{Vec{X: 5, Y: 0}, Vec{X: 1, Y: 0}, 0},
+		{Vec{X: 0, Y: -4}, Vec{X: 0, Y: -1}, 0},
+		{Vec{X: 1, Y: 0}, Vec{X: 0, Y: -1}, -1},
+	}
+
+	for i, c := range cases {
+		got := c.v1.Cross(c.v2)
+		if got != c.want {
+			t.Errorf("case %d: got %f, want %f", i, got, c.want)
+		}
+	}
+}
+
 func TestVecProject(t *testing.T) {
 	cases := []struct {
 		v1, v2, want Vec
