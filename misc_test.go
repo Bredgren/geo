@@ -97,3 +97,11 @@ func checkSelectIndexFreq(list []float64) {
 	// 	fmt.Printf(" %d: %f\n", v, float64(c)/float64(count))
 	// }
 }
+
+func TestI2E2(t *testing.T) {
+	i1, i2 := 1, 2
+	f1, f2 := I2F2(i1, i2)
+	if f1 != 1.0 || f2 != 2.0 {
+		t.Errorf("got %f, %f, want %f, %f", f1, f2, 1.0, 2.0)
+	}
+}

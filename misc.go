@@ -67,6 +67,12 @@ func Mod(a, b float64) float64 {
 	return math.Mod(math.Mod(a, b)+b, b)
 }
 
+// I2F2 takes 2 ints and converts them to float64. e.g.
+//  rect.SetTopLeft(I2F2(functionThatReturns2Ints()))
+func I2F2(i1, i2 int) (f1, f2 float64) {
+	return float64(i1), float64(i2)
+}
+
 // Shaker wraps the arguments to the shake functions for convenience and reusability.
 type Shaker struct {
 	// Seed can be used to change up the shaking behaviour, because all of the shake functions
