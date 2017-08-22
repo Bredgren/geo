@@ -284,11 +284,13 @@ func (v Vec) Clamped(r Rect) Vec {
 	return v
 }
 
+// Floor modifies the Vec by applying math.Floor to X and Y.
 func (v *Vec) Floor() {
 	v.X = math.Floor(v.X)
 	v.Y = math.Floor(v.Y)
 }
 
+// Floored returns a new Vec resulting from applying math.Floor to X and Y.
 func (v Vec) Floored() Vec {
 	v.Floor()
 	return v
