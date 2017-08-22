@@ -554,3 +554,26 @@ func TestVecClamp(t *testing.T) {
 		}
 	}
 }
+
+func TestVecFloor(t *testing.T) {
+	cases := []struct {
+		v    Vec
+		want Vec
+	}{
+		{VecXY(1.2, 3.4), VecXY(1, 3)},
+		{VecXY(5.6, 7.8), VecXY(5, 7)},
+		{VecXY(-1.2, -5.6), VecXY(-2, -6)},
+	}
+
+	for i, c := range cases {
+		got := c.v.Floored()
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+		got = c.v
+		got.Floor()
+		if !got.Equals(c.want, e) {
+			t.Errorf("case %d: got: %s, want: %s", i, got, c.want)
+		}
+	}
+}

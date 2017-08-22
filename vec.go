@@ -283,3 +283,13 @@ func (v Vec) Clamped(r Rect) Vec {
 	v.Y = Clamp(v.Y, r.Bottom(), r.Top())
 	return v
 }
+
+func (v *Vec) Floor() {
+	v.X = math.Floor(v.X)
+	v.Y = math.Floor(v.Y)
+}
+
+func (v Vec) Floored() Vec {
+	v.Floor()
+	return v
+}
