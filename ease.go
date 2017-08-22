@@ -24,7 +24,9 @@ func EaseVec(a, b Vec, t float64, easefn EaseFn) Vec {
 	return Vec{X: Ease(a.X, b.X, t, easefn), Y: Ease(a.Y, b.Y, t, easefn)}
 }
 
-// EaseFn is a function that takes a time t and returns a value.
+// EaseFn is a function that typically takes a time t between 0 and 1 and maps it to
+// a different value between 0 and 1.
+//
 // Ease functions taken from https://gist.github.com/gre/1650294 and
 // https://github.com/warrenm/AHEasing/blob/master/AHEasing/easing.c
 type EaseFn func(t float64) float64
